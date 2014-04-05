@@ -104,7 +104,7 @@ static NSString *myIdentifier;
     if (myIdentifier == nil) {
         return;
     }
-    NSMutableArray *newTempOrder = [NSMutableArray arrayWithArray:@[@[myIdentifier, @-1000]]];
+    NSMutableArray *newTempOrder = [NSMutableArray arrayWithArray:@[@[myIdentifier, @-800]]];
     NSMutableArray *newOrder = [NSMutableArray arrayWithArray:@[myIdentifier]];
     BOOL changed = NO;
     for (CLBeacon *beacon in beacons) {
@@ -248,26 +248,7 @@ static NSString *myIdentifier;
     return [self numberOfItemsInSection:section];
 }
 
-- (CGSize)sizeForSection:(NSInteger)section
-{
-    CGFloat factor = ((.8f)*(section+1))/3.f;
-    return CGSizeMake(30.f/factor,30.f/factor);
-}
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self sizeForSection:indexPath.section];
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    NSInteger width = [self sizeForSection:section].width;
-    if (section == 0) {
-        return UIEdgeInsetsMake(self.view.frame.size.height-2*width,self.view.frame.size.width-2*width-10,0,0);
-    }
-    
-    return UIEdgeInsetsMake(width*3*section, 0, 0, 0);
-}
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -301,30 +282,60 @@ static NSString *myIdentifier;
     NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.row)];
     BITPerson *person = self.nearby[identifier];
     UICollectionViewCell *cell;
-    CGFloat width = [self sizeForSection:indexPath.section].width;
+    UIImageView *imageView;
+    
     if (person.image != nil) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryImageCell" forIndexPath:indexPath];
-        UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+        imageView = (UIImageView *)[cell viewWithTag:1];
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             imageView.image = [UIImage imageWithData:data];
-            imageView.frame = CGRectMake(0, 0, width, width);
-            imageView.center = imageView.superview.center;
         }];
     }
     else{
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
     }
-    cell.layer.cornerRadius = width/2.f;
-    cell.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.layer.cornerRadius] CGPath];
-    UIButton *button = (UIButton *)[cell viewWithTag:2];
-    button.frame = CGRectMake(0, 0, width, width);
-    //button.center = button.superview.center;
     
+    CGFloat factor = (((float)indexPath.section+1.f)/3.f)*80.f;
+    UIView *view = (UIView *)[cell viewWithTag:10];
+    UIButton *button = (UIButton *)[cell viewWithTag:2];
+    
+    
+    if ([person.identifier isEqualToString:self.me.identifier]) {
+        button.frame = CGRectMake(0, 0, 80, 80);
+        view.layer.borderWidth = 1;
+        view.layer.borderColor = [[UIColor colorWithRed:0 green:0.475 blue:1 alpha:1] CGColor]; /*#0079ff*/
+        view.frame = CGRectMake(0, 0, 80, 80);
+        view.center = cell.superview.center;
+        view.layer.cornerRadius = (80)/2.f;
+        view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
+        if (imageView != nil) {
+            imageView.layer.cornerRadius = (80)/2.f;
+            [imageView.layer setMasksToBounds:YES];
+        }
+        cell.center = CGPointMake(self.view.frame.size.width/2.f, self.view.frame.size.height - (80 + 20));
+    }
+    else {
+        button.frame = CGRectMake(0, 0, factor, factor);
+        view.frame = CGRectMake(0, 0, factor, factor);
+        view.center = cell.superview.center;
+        view.layer.cornerRadius = factor/2.f;
+        view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
+        if (imageView != nil) {
+            imageView.layer.cornerRadius = factor/2.f;
+            [imageView.layer setMasksToBounds:YES];
+        }
+        cell.center = CGPointMake((indexPath.row * factor) + 10, (indexPath.section * factor) + 10);
+    }
+    
+    button.center = button.superview.center;
     NSMutableString *initials = [NSMutableString string];
     [[person.name componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
         [initials appendString:[obj substringToIndex:1]];
     }];
     [button setTitle:initials forState:UIControlStateNormal];
+    
+    
+
     
     return cell;
 }
