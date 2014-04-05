@@ -17,7 +17,7 @@
 @implementation BITPerson
 
 static NSMutableDictionary *_people;
-static const NSString *endpoint = @"http://bitcamp.herokuapp.com/";
+static const NSString *endpoint = @"http://10.1.10.1:5000";
 
 + (BITPerson *)personWithIdentifier:(NSString *)identifier
 {
@@ -89,7 +89,7 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com/";
     if(self){
         self.name = person[@"name"];
         self.identifier = person[@"_id"];
-        self.imageData = person[@"image"];
+        self.image = person[@"image"];
     }
     
     return self;

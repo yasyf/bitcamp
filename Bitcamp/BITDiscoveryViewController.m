@@ -67,13 +67,12 @@
     if (person.image != nil) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryImageCell" forIndexPath:indexPath];
         UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
-        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            imageView.image = [UIImage imageWithData:data];
-        }];
+        NSData *data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] returningResponse:nil error:nil];
+        imageView.image = [UIImage imageWithData:data];
     }
     else{
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
-        UIButton *button = (UIButton *)[cell viewWithTag:1];
+        UIButton *button = (UIButton *)[cell viewWithTag:2];
         NSMutableString *initials = [NSMutableString string];
         [[person.name componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
             [initials appendString:[obj substringToIndex:1]];
