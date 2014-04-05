@@ -15,6 +15,7 @@
     @property NSMutableArray *order;
     @property BITPerson *me;
     @property BOOL isTouching;
+    @property BOOL isShowing;
 
 @end
     
@@ -180,6 +181,7 @@ static NSString *myIdentifier;
         guestureRecognizer.delaysTouchesEnded = NO;
     }
     self.isTouching = NO;
+    self.isShowing = NO;
     
     self.nearby = [NSMutableDictionary dictionary];
     self.order = [NSMutableArray array];
@@ -269,22 +271,30 @@ static NSString *myIdentifier;
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.row == 0) {
+        if (indexPath.section == 0 && indexPath.row == 0) {
         return NO;
     }
+    self.isTouching = YES;
     return YES;
 }
 
-- (BOOL)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath canMoveToIndexPath:(NSIndexPath *)toIndexPath{
+- (BOOL)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath canMoveToIndexPath:(NSIndexPath *)toIndexPath
+{
     if (toIndexPath.section == 0 && toIndexPath.row == 0) {
-        //Process landing
-        NSLog(@"%@",toIndexPath);
+        if (self.isShowing == NO) {
+            self.isShowing = YES;
+            //Process landing
+            NSLog(@"%@",toIndexPath);
+        }
     }
+    self.isTouching = NO;
     return NO;
 }
 
-
-
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.isTouching = NO;
+}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
