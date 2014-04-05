@@ -107,7 +107,7 @@
                     <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="HZ2-Cz-fa9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vzg-5D-Zkk">
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vzg-5D-Zkk">
                             <size key="itemSize" width="100" height="100"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -121,7 +121,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cwz-vd-YpS">
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cwz-vd-YpS">
                                             <rect key="frame" x="20" y="35" width="60" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal">
@@ -132,30 +132,45 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" red="0.70144462999146451" green="0.70117435201608824" blue="0.7516134511" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Cwz-vd-YpS" secondAttribute="trailing" constant="20" id="a8j-r9-7cw"/>
+                                    <constraint firstItem="Cwz-vd-YpS" firstAttribute="leading" secondItem="CyJ-am-qeG" secondAttribute="leading" constant="20" id="xiK-f5-VSU"/>
+                                    <constraint firstItem="Cwz-vd-YpS" firstAttribute="centerY" secondItem="CyJ-am-qeG" secondAttribute="centerY" id="y3S-n5-IYn"/>
+                                </constraints>
                                 <size key="customSize" width="100" height="100"/>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="discoveryImageCell" id="QdO-c5-L2W">
-                                <rect key="frame" x="110" y="64" width="100" height="100"/>
+                                <rect key="frame" x="0.0" y="181" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XvA-tD-Lq6">
-                                            <rect key="frame" x="27" y="35" width="46" height="30"/>
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XvA-tD-Lq6">
+                                            <rect key="frame" x="20" y="35" width="60" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
-                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U6I-je-NSD">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U6I-je-NSD">
+                                            <rect key="frame" x="50" y="50" width="0.0" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" red="0.70144463000000001" green="0.701174352" blue="0.7516134511" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="XvA-tD-Lq6" secondAttribute="trailing" constant="20" id="9I3-NZ-wJH"/>
+                                    <constraint firstItem="U6I-je-NSD" firstAttribute="top" secondItem="QdO-c5-L2W" secondAttribute="top" constant="50" id="OST-W9-UYS"/>
+                                    <constraint firstItem="XvA-tD-Lq6" firstAttribute="centerX" secondItem="U6I-je-NSD" secondAttribute="centerX" id="Vn4-Rb-5Xa"/>
+                                    <constraint firstItem="XvA-tD-Lq6" firstAttribute="leading" secondItem="QdO-c5-L2W" secondAttribute="leading" constant="20" id="XjW-Ek-jfV"/>
+                                    <constraint firstItem="U6I-je-NSD" firstAttribute="leading" secondItem="QdO-c5-L2W" secondAttribute="leading" constant="50" id="cIE-cR-ioT"/>
+                                    <constraint firstItem="XvA-tD-Lq6" firstAttribute="centerY" secondItem="QdO-c5-L2W" secondAttribute="centerY" id="caD-HX-SZv"/>
+                                    <constraint firstItem="XvA-tD-Lq6" firstAttribute="centerY" secondItem="U6I-je-NSD" secondAttribute="centerY" id="rgn-6e-9Xb"/>
+                                </constraints>
+                                <size key="customSize" width="100" height="100"/>
                             </collectionViewCell>
                         </cells>
                         <connections>

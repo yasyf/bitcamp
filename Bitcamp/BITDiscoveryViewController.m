@@ -98,6 +98,7 @@ static NSString *myIdentifier;
 {
     NSMutableArray *newTempOrder = [NSMutableArray arrayWithArray:@[@[myIdentifier, @-1000]]];
     NSMutableArray *newOrder = [NSMutableArray arrayWithArray:@[myIdentifier]];
+    BOOL changed = NO;
     for (CLBeacon *beacon in beacons) {
         
         if (beacon.proximity == 0) {
@@ -106,13 +107,25 @@ static NSString *myIdentifier;
         
         NSString *identifier = [NSString stringWithFormat:@"%@", beacon.major];
         
+        BITPerson *person;
+        
         if (self.nearby[identifier] == nil) {
-            BITPerson *person = [BITPerson personWithIdentifier:identifier];
+            person = [BITPerson personWithIdentifier:identifier];
             if (person == nil) {
                 continue;
             }
-            self.nearby[identifier] = person;
         }
+        else
+        {
+            person = self.nearby[identifier];
+        }
+        
+        if (person.proximity != beacon.proximity) {
+            person.proximity = beacon.proximity;
+            changed = YES;
+        }
+        
+        self.nearby[identifier] = person;
         
         NSArray *node = @[identifier, [NSNumber numberWithLong:beacon.rssi]];
         NSUInteger index = [newTempOrder indexOfObject:node inSortedRange:(NSRange){0, [newTempOrder count]} options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(NSArray* a, NSArray* b){
@@ -123,12 +136,13 @@ static NSString *myIdentifier;
         [newTempOrder insertObject:node atIndex:index];
         [newOrder insertObject:identifier atIndex:index];
         
-        BITPerson *person = self.nearby[identifier];
-        person.proximity = beacon.proximity;
-        NSLog(@"Logged Person %@", identifier);
+        
+        
+        NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
+        NSLog(@"%@", beacon);
         
     }
-    if (![newOrder isEqualToArray:self.order]) {
+    if (![newOrder isEqualToArray:self.order] || changed == YES) {
         self.order = newOrder;
         NSUInteger count = [self.order count];
         if (count > 0) {
@@ -136,6 +150,10 @@ static NSString *myIdentifier;
             [self reloadNearby];
         }
     }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
+    [self.locationManager startRangingBeaconsInRegion:self.incomingBeaconRegion];
 }
 
 - (void)viewDidLoad
@@ -155,6 +173,8 @@ static NSString *myIdentifier;
     [self initReceiver];
     
     [self reloadNearby];
+    
+    [self locationManager:self.locationManager didStartMonitoringForRegion:self.incomingBeaconRegion];
     
 }
 
@@ -202,27 +222,51 @@ static NSString *myIdentifier;
     return [self numberOfItemsInSection:section];
 }
 
+- (CGSize)sizeForSection:(NSInteger)section
+{
+    CGFloat factor = ((.8f)*(section+1))/3.f;
+    return CGSizeMake(30.f/factor,30.f/factor);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self sizeForSection:indexPath.section];
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    NSInteger width = [self sizeForSection:section].width;
+    if (section == 0) {
+        return UIEdgeInsetsMake(self.view.frame.size.height-2*width,self.view.frame.size.width-2*width-10,0,0);
+    }
+    
+    return UIEdgeInsetsMake(width*3*section, 0, 0, 0);
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.row)];
     BITPerson *person = self.nearby[identifier];
     UICollectionViewCell *cell;
+    CGFloat width = [self sizeForSection:indexPath.section].width;
     if (person.image != nil) {
-        NSLog(@"ITEM: %ld",(long)indexPath.item);
-        NSLog(@"ROW: %ld",(long)indexPath.row);
-        NSLog(@"SECTION: %ld",(long)indexPath.section);
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryImageCell" forIndexPath:indexPath];
         UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             imageView.image = [UIImage imageWithData:data];
+            imageView.frame = CGRectMake(0, 0, width, width);
+            imageView.center = imageView.superview.center;
         }];
     }
     else{
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
     }
-    cell.layer.cornerRadius = 50;
+    cell.layer.cornerRadius = width/2.f;
     cell.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.layer.cornerRadius] CGPath];
     UIButton *button = (UIButton *)[cell viewWithTag:2];
+    button.frame = CGRectMake(0, 0, width, width);
+    //button.center = button.superview.center;
+    
     NSMutableString *initials = [NSMutableString string];
     [[person.name componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
         [initials appendString:[obj substringToIndex:1]];
