@@ -19,6 +19,11 @@
 		0CA065BD18EFA9B1007DF659 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA065A518EFA9B0007DF659 /* UIKit.framework */; };
 		0CA065C518EFA9B1007DF659 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0CA065C318EFA9B1007DF659 /* InfoPlist.strings */; };
 		0CA065C718EFA9B1007DF659 /* BitcampTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA065C618EFA9B1007DF659 /* BitcampTests.m */; };
+		0CA5D52918EFA9FE00E2A62F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CA5D52818EFA9FE00E2A62F /* Main.storyboard */; };
+		0CA5D52F18EFACD200E2A62F /* BITSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D52E18EFACD200E2A62F /* BITSettingsViewController.m */; };
+		0CA5D53518EFB46500E2A62F /* BITDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */; };
+		0CA5D53818EFB67700E2A62F /* BITMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D53718EFB67700E2A62F /* BITMainViewController.m */; };
+		0CC0254918EFBF2400F87734 /* BITPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0254818EFBF2400F87734 /* BITPerson.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +53,15 @@
 		0CA065C218EFA9B1007DF659 /* BitcampTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BitcampTests-Info.plist"; sourceTree = "<group>"; };
 		0CA065C418EFA9B1007DF659 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0CA065C618EFA9B1007DF659 /* BitcampTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitcampTests.m; sourceTree = "<group>"; };
+		0CA5D52818EFA9FE00E2A62F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0CA5D52D18EFACD200E2A62F /* BITSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITSettingsViewController.h; sourceTree = "<group>"; };
+		0CA5D52E18EFACD200E2A62F /* BITSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITSettingsViewController.m; sourceTree = "<group>"; };
+		0CA5D53318EFB46500E2A62F /* BITDiscoveryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITDiscoveryViewController.h; sourceTree = "<group>"; };
+		0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITDiscoveryViewController.m; sourceTree = "<group>"; };
+		0CA5D53618EFB67700E2A62F /* BITMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITMainViewController.h; sourceTree = "<group>"; };
+		0CA5D53718EFB67700E2A62F /* BITMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITMainViewController.m; sourceTree = "<group>"; };
+		0CC0254718EFBF2400F87734 /* BITPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITPerson.h; sourceTree = "<group>"; };
+		0CC0254818EFBF2400F87734 /* BITPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITPerson.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +123,15 @@
 			children = (
 				0CA065B018EFA9B0007DF659 /* BITAppDelegate.h */,
 				0CA065B118EFA9B0007DF659 /* BITAppDelegate.m */,
+				0CA5D52818EFA9FE00E2A62F /* Main.storyboard */,
+				0CA5D53618EFB67700E2A62F /* BITMainViewController.h */,
+				0CA5D53718EFB67700E2A62F /* BITMainViewController.m */,
+				0CC0254718EFBF2400F87734 /* BITPerson.h */,
+				0CC0254818EFBF2400F87734 /* BITPerson.m */,
+				0CA5D53318EFB46500E2A62F /* BITDiscoveryViewController.h */,
+				0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */,
+				0CA5D52D18EFACD200E2A62F /* BITSettingsViewController.h */,
+				0CA5D52E18EFACD200E2A62F /* BITSettingsViewController.m */,
 				0CA065B318EFA9B0007DF659 /* Images.xcassets */,
 				0CA065A818EFA9B0007DF659 /* Supporting Files */,
 			);
@@ -220,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CA5D52918EFA9FE00E2A62F /* Main.storyboard in Resources */,
 				0CA065AC18EFA9B0007DF659 /* InfoPlist.strings in Resources */,
 				0CA065B418EFA9B0007DF659 /* Images.xcassets in Resources */,
 			);
@@ -240,8 +264,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CA5D52F18EFACD200E2A62F /* BITSettingsViewController.m in Sources */,
+				0CA5D53818EFB67700E2A62F /* BITMainViewController.m in Sources */,
 				0CA065B218EFA9B0007DF659 /* BITAppDelegate.m in Sources */,
 				0CA065AE18EFA9B0007DF659 /* main.m in Sources */,
+				0CC0254918EFBF2400F87734 /* BITPerson.m in Sources */,
+				0CA5D53518EFB46500E2A62F /* BITDiscoveryViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +466,7 @@
 				0CA065CC18EFA9B1007DF659 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0CA065CD18EFA9B1007DF659 /* Build configuration list for PBXNativeTarget "BitcampTests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +475,7 @@
 				0CA065CF18EFA9B1007DF659 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
