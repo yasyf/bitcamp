@@ -93,7 +93,7 @@
     }
     
     if (valid == YES) {
-        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", self.image, @"image", nil];
+        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", self.image, @"imageData", nil];
         BITPerson *user = [[BITPerson alloc] initWithDictionary:data];
         NSString *identifier = [user save];
         

@@ -50,17 +50,20 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 
 def get_user_json(userid):
-	user = nearby.find_one({'_id': ObjectId(userid)})
-	user['_id'] = str(user['_id'])
+	user = nearby.find_one({'count': int(userid)})
+	user['_id'] = str(user['count'])
+	del user['count']
 	return json.dumps(user)
 
 def create_user_json():
-	user = nearby.insert({})
-	return json.dumps({"userid": str(user)})
+	next_count = counters.find_one({"name": "nearby"})['count'] + 1
+	counters.update({"name": "nearby"}, {"$inc": {"count": 1}})
+	user = nearby.insert({"count": next_count})
+	return json.dumps({"userid": str(next_count)})
 
 def set_user_json(userid, data):
 	data = json.loads(data)
-	nearby.update({'_id': ObjectId(userid)}, data)
+	nearby.update({'count': int(userid)}, {"$set": data})
 	return json.dumps({"status": "success"})
 
 def s3_upload(f, userid, acl='public-read'):

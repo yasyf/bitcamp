@@ -90,6 +90,7 @@ static const NSString *endpoint = @"http://10.1.10.1:5000";
         self.name = person[@"name"];
         self.identifier = person[@"_id"];
         self.image = person[@"image"];
+        self.imageData = person[@"imageData"];
     }
     
     return self;
