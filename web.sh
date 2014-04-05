@@ -1,3 +1,5 @@
+cd API
+
 if [ "$dev" == "True" ]; then
         python bitcamp.py
 else
