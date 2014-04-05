@@ -10,4 +10,6 @@
 
 @interface BITDiscoveryViewController : UICollectionViewController
 
+- (void)reloadNearby;
+
 @end

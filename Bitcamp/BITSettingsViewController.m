@@ -9,10 +9,13 @@
 #import "BITSettingsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "BITPerson.h"
+#import "BITMainViewController.h"
+#import "BITDiscoveryViewController.h"
 
 @interface BITSettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
+@property UIImage *image;
 
 @end
 
@@ -50,6 +53,26 @@
 }
 */
 
+#pragma mark - UIImagePickerController Delegate
+
+- (IBAction)didClickImageButton:(UIButton *)sender {
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    self.image = info[UIImagePickerControllerOriginalImage];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - UITextField Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -70,14 +93,15 @@
     }
     
     if (valid == YES) {
-        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", nil];
+        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", self.image, @"image", nil];
         BITPerson *user = [[BITPerson alloc] initWithDictionary:data];
         NSString *identifier = [user save];
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:self.nameField.text forKey:@"name"];
         [userDefaults setObject:identifier forKey:@"identifier"];
         [userDefaults synchronize];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateDiscoveryViewController" object:nil];
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }

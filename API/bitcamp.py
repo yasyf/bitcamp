@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from flask import Flask, Response, session, redirect, url_for, escape, request, render_template, flash, make_response
+from werkzeug.utils import secure_filename
 from functions import *
 
 
@@ -19,6 +20,17 @@ def user(userid):
 		return Response(response=create_user_json(), status=200, mimetype="application/json")
 	elif method == 'SET':
 		return Response(response=set_user_json(userid, request.args.get('data')), status=200, mimetype="application/json")
+
+@app.route('/photo/<userid>.json', methods=['POST'])
+@crossdomain(origin='*')
+def photo(userid):
+	f = request.files['file']
+	if f:
+		extension = secure_filename(f.filename).rsplit('.', 1)[1]
+		return Response(response=s3_upload(f, extension, userid), status=200, mimetype="application/json")
+	else:
+		return Response(response=json.dumps({"status": "error"}), status=200, mimetype="application/json")
+
 
 if __name__ == '__main__':
 	if os.environ.get('PORT'):

@@ -8,6 +8,12 @@
 
 #import "BITPerson.h"
 
+@interface BITPerson()
+
+@property UIImage *imageData;
+
+@end
+
 @implementation BITPerson
 
 static NSMutableDictionary *_people;
@@ -46,6 +52,36 @@ static const NSString *endpoint = @"http://0.0.0.0:5000";
     return [component stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
+- (NSString *)saveImage
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/photo/%@.json", endpoint, self.identifier]]];
+    [request setHTTPMethod:@"POST"];
+    
+    NSString *boundary = @"---------------------------14737809831466499882746641449";
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    NSMutableData *body = [NSMutableData data];
+    
+    NSData *imageData = UIImageJPEGRepresentation(self.imageData, 1.0);
+    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", self.identifier] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Type: image/jpeg\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:imageData];
+    [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [request setHTTPBody:body];
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:result options:NSJSONReadingMutableLeaves error:nil];
+    return dict[@"url"];
+    
+}
+
 - (id)initWithDictionary:(NSDictionary *)person
 {
     self = [super init];
@@ -53,6 +89,7 @@ static const NSString *endpoint = @"http://0.0.0.0:5000";
     if(self){
         self.name = person[@"name"];
         self.identifier = person[@"_id"];
+        self.imageData = person[@"image"];
     }
     
     return self;
@@ -76,9 +113,11 @@ static const NSString *endpoint = @"http://0.0.0.0:5000";
         NSData *identifierData = [NSData dataWithContentsOfURL:[BITPerson URLWithIdentifier:nil method:@"CREATE"]];
         NSDictionary *newUser = [NSJSONSerialization JSONObjectWithData:identifierData options:NSJSONReadingMutableContainers error:nil];
         self.identifier = newUser[@"userid"];
-        
     }
-    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.name, @"name", nil];
+    if (self.imageData != nil) {
+        self.image = [self saveImage];
+    }
+    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.name, @"name", self.image, @"image", nil];
     NSData *json = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
     NSString *update = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
     NSURL *url = [BITPerson URLWithIdentifier:self.identifier method:@"SET" data:[BITPerson escapeURIComponent:update]];

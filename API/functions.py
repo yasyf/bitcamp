@@ -4,8 +4,7 @@ from setup import *
 from flask import make_response, request, current_app, render_template, redirect, url_for, session, abort, flash
 from functools import update_wrapper
 from bson.objectid import ObjectId
-import json
-import datetime
+import json, datetime, boto
 
 def crossdomain(origin=None, methods=None, headers=None,
 				max_age=21600, attach_to_all=True,
@@ -63,3 +62,17 @@ def set_user_json(userid, data):
 	data = json.loads(data)
 	nearby.update({'_id': ObjectId(userid)}, data)
 	return json.dumps({"status": "success"})
+
+def s3_upload(f, extension, userid, acl='public-read'):
+    key_name = userid + "." + extension
+
+    # Connect to S3 and upload file.
+    conn = boto.connect_s3()
+    b = conn.get_bucket(os.environ["S3_BUCKET"])
+
+
+    sml = b.new_key(key_name)
+    sml.set_contents_from_file(f)
+    sml.set_acl(acl)
+
+    return json.dumps({"status": "success", "url": sml.generate_url(expires_in=0, query_auth=False)})

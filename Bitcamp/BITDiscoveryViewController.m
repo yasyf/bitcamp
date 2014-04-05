@@ -25,17 +25,27 @@
     return self;
 }
 
+- (void)reloadNearby
+{
+    NSString *identifier = [[NSUserDefaults standardUserDefaults] stringForKey:@"identifier"];
+    if (identifier != nil && self.nearby[identifier] == nil) {
+        BITPerson *me = [BITPerson personWithIdentifier:identifier];
+        self.nearby[identifier] = me;
+    }
+    
+    [self.collectionView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.nearby = [NSMutableDictionary dictionary];
     
-    NSString *identifier = [[NSUserDefaults standardUserDefaults] stringForKey:@"identifier"];
-    if (identifier != nil) {
-        BITPerson *me = [BITPerson personWithIdentifier:identifier];
-        self.nearby[identifier] = me;
-    }
+    [self reloadNearby];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNearby) name:@"updateDiscoveryViewController" object:nil];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,10 +62,24 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryCell" forIndexPath:indexPath];
-    UIButton *button = (UIButton *)[cell viewWithTag:1];
     BITPerson *person = [[self.nearby allValues] objectAtIndex:indexPath.row];
-    [button setTitle:person.name forState:UIControlStateNormal];
+    UICollectionViewCell *cell;
+    if (person.image != nil) {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryImageCell" forIndexPath:indexPath];
+        UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
+        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            imageView.image = [UIImage imageWithData:data];
+        }];
+    }
+    else{
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
+        UIButton *button = (UIButton *)[cell viewWithTag:1];
+        NSMutableString *initials = [NSMutableString string];
+        [[person.name componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+            [initials appendString:[obj substringToIndex:1]];
+        }];
+        [button setTitle:initials forState:UIControlStateNormal];
+    }
     
     return cell;
 }
