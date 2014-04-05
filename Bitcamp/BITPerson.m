@@ -17,7 +17,7 @@
 @implementation BITPerson
 
 static NSMutableDictionary *_people;
-static const NSString *endpoint = @"http://0.0.0.0:5000";
+static const NSString *endpoint = @"http://bitcamp.herokuapp.com/";
 
 + (BITPerson *)personWithIdentifier:(NSString *)identifier
 {

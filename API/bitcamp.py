@@ -26,8 +26,7 @@ def user(userid):
 def photo(userid):
 	f = request.files['file']
 	if f:
-		extension = secure_filename(f.filename).rsplit('.', 1)[1]
-		return Response(response=s3_upload(f, extension, userid), status=200, mimetype="application/json")
+		return Response(response=s3_upload(f, userid), status=200, mimetype="application/json")
 	else:
 		return Response(response=json.dumps({"status": "error"}), status=200, mimetype="application/json")
 

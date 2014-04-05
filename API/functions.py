@@ -63,8 +63,8 @@ def set_user_json(userid, data):
 	nearby.update({'_id': ObjectId(userid)}, data)
 	return json.dumps({"status": "success"})
 
-def s3_upload(f, extension, userid, acl='public-read'):
-    key_name = userid + "." + extension
+def s3_upload(f, userid, acl='public-read'):
+    key_name = userid + ".jpg"
 
     # Connect to S3 and upload file.
     conn = boto.connect_s3()
