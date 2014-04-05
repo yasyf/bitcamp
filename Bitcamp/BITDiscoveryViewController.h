@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <QuartzCore/QuartzCore.h>
+#import "LXReorderableCollectionViewFlowLayout.h"
 
-@interface BITDiscoveryViewController : UICollectionViewController <CBPeripheralManagerDelegate, CLLocationManagerDelegate>
+@interface BITDiscoveryViewController : UICollectionViewController <LXReorderableCollectionViewDataSource, LXReorderableCollectionViewDelegateFlowLayout, CBPeripheralManagerDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) CLBeaconRegion *outgoingBeaconRegion;
 @property (strong, nonatomic) CLBeaconRegion *incomingBeaconRegion;

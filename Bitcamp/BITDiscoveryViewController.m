@@ -14,6 +14,7 @@
     @property NSMutableDictionary *nearby;
     @property NSMutableArray *order;
     @property BITPerson *me;
+    @property BOOL isTouching;
 
 @end
     
@@ -34,6 +35,9 @@ static NSString *myIdentifier;
 
 - (void)reloadNearby
 {
+    if(self.isTouching == YES){
+        return;
+    }
     
     if (myIdentifier != nil && self.nearby[myIdentifier] == nil) {
         if (self.me == nil) {
@@ -96,6 +100,9 @@ static NSString *myIdentifier;
 
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
+    if (myIdentifier == nil) {
+        return;
+    }
     NSMutableArray *newTempOrder = [NSMutableArray arrayWithArray:@[@[myIdentifier, @-1000]]];
     NSMutableArray *newOrder = [NSMutableArray arrayWithArray:@[myIdentifier]];
     BOOL changed = NO;
@@ -138,8 +145,8 @@ static NSString *myIdentifier;
         
         
         
-        NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
-        NSLog(@"%@", beacon);
+        //NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
+        //NSLog(@"%@", beacon);
         
     }
     if (![newOrder isEqualToArray:self.order] || changed == YES) {
@@ -156,14 +163,30 @@ static NSString *myIdentifier;
     [self.locationManager startRangingBeaconsInRegion:self.incomingBeaconRegion];
 }
 
+- (void)toggleTouches:(NSNotification *) notification
+{
+    NSDictionary* userInfo = notification.userInfo;
+    BOOL isTouching = (BOOL) ([[userInfo objectForKey:@"isTouching"]  isEqual: @1]);
+    self.isTouching = isTouching;
+    NSLog(@"isTouching: %d", isTouching);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    for (UIGestureRecognizer *guestureRecognizer in self.collectionView.gestureRecognizers) {
+        guestureRecognizer.cancelsTouchesInView = NO;
+        guestureRecognizer.delaysTouchesEnded = NO;
+    }
+    self.isTouching = NO;
     
     self.nearby = [NSMutableDictionary dictionary];
     self.order = [NSMutableArray array];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNearby) name:@"updateDiscoveryViewController" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleTouches:) name:@"toggleTouches" object:nil];
     
     myIdentifier = [[NSUserDefaults standardUserDefaults] stringForKey:@"identifier"];
     
@@ -173,8 +196,9 @@ static NSString *myIdentifier;
     [self initReceiver];
     
     [self reloadNearby];
-    
+        
     [self locationManager:self.locationManager didStartMonitoringForRegion:self.incomingBeaconRegion];
+    
     
 }
 
@@ -242,6 +266,25 @@ static NSString *myIdentifier;
     
     return UIEdgeInsetsMake(width*3*section, 0, 0, 0);
 }
+
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath canMoveToIndexPath:(NSIndexPath *)toIndexPath{
+    if (toIndexPath.section == 0 && toIndexPath.row == 0) {
+        //Process landing
+        NSLog(@"%@",toIndexPath);
+    }
+    return NO;
+}
+
+
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
