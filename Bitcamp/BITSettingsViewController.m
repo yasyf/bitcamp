@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property UIImage *image;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @end
 

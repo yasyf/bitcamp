@@ -146,8 +146,8 @@ static NSString *myIdentifier;
         
         
         
-        //NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
-        //NSLog(@"%@", beacon);
+        NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
+        NSLog(@"%@", beacon);
         
     }
     if (![newOrder isEqualToArray:self.order] || changed == YES) {
@@ -295,7 +295,8 @@ static NSString *myIdentifier;
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
     }
     
-    CGFloat factor = (((float)indexPath.section+1.f)/3.f)*80.f;
+    CGFloat heightFactor = .5*(3-person.proximity)*(self.view.frame.size.height - 175);
+    CGFloat scaleFactor = pow((person.proximity),-.5)*80;
     UIView *view = (UIView *)[cell viewWithTag:10];
     UIButton *button = (UIButton *)[cell viewWithTag:2];
     
@@ -305,26 +306,28 @@ static NSString *myIdentifier;
         view.layer.borderWidth = 1;
         view.layer.borderColor = [[UIColor colorWithRed:0 green:0.475 blue:1 alpha:1] CGColor]; /*#0079ff*/
         view.frame = CGRectMake(0, 0, 80, 80);
-        view.center = cell.superview.center;
         view.layer.cornerRadius = (80)/2.f;
+        [view.layer setMasksToBounds:YES];
         view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
         if (imageView != nil) {
+            imageView.frame = CGRectMake(0, 0, 80, 80);
             imageView.layer.cornerRadius = (80)/2.f;
             [imageView.layer setMasksToBounds:YES];
         }
         cell.center = CGPointMake(self.view.frame.size.width/2.f, self.view.frame.size.height - (80 + 20));
     }
     else {
-        button.frame = CGRectMake(0, 0, factor, factor);
-        view.frame = CGRectMake(0, 0, factor, factor);
-        view.center = cell.superview.center;
-        view.layer.cornerRadius = factor/2.f;
+        button.frame = CGRectMake(0, 0, scaleFactor, scaleFactor);
+        view.frame = CGRectMake(0, 0, scaleFactor, scaleFactor);
+        view.layer.cornerRadius = scaleFactor/2.f;
+        [view.layer setMasksToBounds:YES];
         view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
         if (imageView != nil) {
-            imageView.layer.cornerRadius = factor/2.f;
+            imageView.frame = CGRectMake(0, 0, scaleFactor, scaleFactor);
+            imageView.layer.cornerRadius = scaleFactor/2.f;
             [imageView.layer setMasksToBounds:YES];
         }
-        cell.center = CGPointMake((indexPath.row * factor) + 10, (indexPath.section * factor) + 10);
+        cell.center = CGPointMake((indexPath.row * 20) + 40, heightFactor + 40);
     }
     
     button.center = button.superview.center;
