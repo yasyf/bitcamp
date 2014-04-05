@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BITSettingsViewController : UIViewController
+@interface BITSettingsViewController : UIViewController <UITextFieldDelegate>
 
 @end

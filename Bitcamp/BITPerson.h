@@ -10,8 +10,13 @@
 
 @interface BITPerson : NSObject
 
+@property NSString *identifier;
 @property NSString *name;
 
 + (BITPerson *)personWithIdentifier:(NSString *)identifier;
+
+- (id)initWithDictionary:(NSDictionary *)person;
+
+- (NSString *)save;
 
 @end

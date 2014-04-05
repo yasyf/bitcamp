@@ -32,7 +32,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults stringForKey:@"name"] == nil) {
+    if ([userDefaults stringForKey:@"identifier"] == nil) {
         [self performSegueWithIdentifier:@"settingsSegue" sender:self.view];
     }
 }

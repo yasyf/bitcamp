@@ -7,6 +7,7 @@
 //
 
 #import "BITDiscoveryViewController.h"
+#import "BITPerson.h"
 
 @interface BITDiscoveryViewController ()
   @property NSMutableDictionary *nearby;
@@ -29,6 +30,12 @@
     [super viewDidLoad];
     
     self.nearby = [NSMutableDictionary dictionary];
+    
+    NSString *identifier = [[NSUserDefaults standardUserDefaults] stringForKey:@"identifier"];
+    if (identifier != nil) {
+        BITPerson *me = [BITPerson personWithIdentifier:identifier];
+        self.nearby[identifier] = me;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,7 +54,8 @@
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryCell" forIndexPath:indexPath];
     UIButton *button = (UIButton *)[cell viewWithTag:1];
-    [button setTitle:[[self.nearby allValues] objectAtIndex:indexPath.row] forState:UIControlStateNormal];
+    BITPerson *person = [[self.nearby allValues] objectAtIndex:indexPath.row];
+    [button setTitle:person.name forState:UIControlStateNormal];
     
     return cell;
 }

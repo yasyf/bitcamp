@@ -8,6 +8,7 @@
 
 #import "BITSettingsViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "BITPerson.h"
 
 @interface BITSettingsViewController ()
 
@@ -48,6 +49,14 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - UITextField Delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self didClickSaveButton:nil];
+    return YES;
+}
+
 - (IBAction)didClickSaveButton:(UIButton *)sender {
     
     BOOL valid = YES;
@@ -61,9 +70,15 @@
     }
     
     if (valid == YES) {
+        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", nil];
+        BITPerson *user = [[BITPerson alloc] initWithDictionary:data];
+        NSString *identifier = [user save];
+        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:self.nameField.text forKey:@"name"];
+        [userDefaults setObject:identifier forKey:@"identifier"];
         [userDefaults synchronize];
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
