@@ -11,6 +11,7 @@
 @interface BITPerson : NSObject
 
 @property NSString *identifier;
+@property NSInteger proximity;
 @property NSString *name;
 @property NSString *image;
 

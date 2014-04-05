@@ -38,6 +38,7 @@ static NSString *myIdentifier;
     if (myIdentifier != nil && self.nearby[myIdentifier] == nil) {
         if (self.me == nil) {
             self.me = [BITPerson personWithIdentifier:myIdentifier];
+            self.me.proximity = 1;
         }
         self.nearby[myIdentifier] = self.me;
         self.order = [NSMutableArray arrayWithArray:@[myIdentifier]];
@@ -122,6 +123,8 @@ static NSString *myIdentifier;
         [newTempOrder insertObject:node atIndex:index];
         [newOrder insertObject:identifier atIndex:index];
         
+        BITPerson *person = self.nearby[identifier];
+        person.proximity = beacon.proximity;
         NSLog(@"Logged Person %@", identifier);
         
     }
@@ -161,18 +164,53 @@ static NSString *myIdentifier;
     // Dispose of any resources that can be recreated.
 }
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 3;
+}
+
+- (NSInteger)numberOfItemsBelowSection:(NSInteger)section
+{
+    NSInteger count = 0;
+    
+    for (NSString *identifier in self.order) {
+        BITPerson *person = self.nearby[identifier];
+        if (person.proximity < section + 1) {
+            count += 1;
+        }
+    }
+    
+    return count;
+}
+
+- (NSInteger)numberOfItemsInSection:(NSInteger)section
+{
+    NSInteger count = 0;
+    
+    for (NSString *identifier in self.order) {
+        BITPerson *person = self.nearby[identifier];
+        if (person.proximity == section + 1) {
+            count += 1;
+        }
+    }
+    
+    return count;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.order count];
-    
+    return [self numberOfItemsInSection:section];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNumber *identifier = [self.order objectAtIndex:indexPath.item];
+    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.row)];
     BITPerson *person = self.nearby[identifier];
     UICollectionViewCell *cell;
     if (person.image != nil) {
+        NSLog(@"ITEM: %ld",(long)indexPath.item);
+        NSLog(@"ROW: %ld",(long)indexPath.row);
+        NSLog(@"SECTION: %ld",(long)indexPath.section);
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryImageCell" forIndexPath:indexPath];
         UIImageView *imageView = (UIImageView *)[cell viewWithTag:1];
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -182,7 +220,8 @@ static NSString *myIdentifier;
     else{
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
     }
-    
+    cell.layer.cornerRadius = 50;
+    cell.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.layer.cornerRadius] CGPath];
     UIButton *button = (UIButton *)[cell viewWithTag:2];
     NSMutableString *initials = [NSMutableString string];
     [[person.name componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
