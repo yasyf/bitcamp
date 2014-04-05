@@ -27,9 +27,21 @@ static const NSString *endpoint = @"http://10.1.10.1:5000";
     if ([_people objectForKey:identifier] == nil) {
         NSLog(@"Fetching user %@",identifier);
         BITPerson *p = [[BITPerson alloc] initWithIdentifier:identifier];
-        _people[identifier] = p;
+        if (p == nil) {
+            _people[identifier] = [NSNull null];
+        }
+        else{
+            _people[identifier] = p;
+        }
+        
     }
-    return [_people objectForKey:identifier];
+    
+    if ([[_people objectForKey:identifier] class] == [NSNull class]) {
+        return nil;
+    }
+    else {
+        return [_people objectForKey:identifier];
+    }
 }
 
 + (NSURL *)URLWithIdentifier:(NSString *)identifier method:(NSString *)method
@@ -100,6 +112,9 @@ static const NSString *endpoint = @"http://10.1.10.1:5000";
 {
     NSData *json = [NSData dataWithContentsOfURL:url];
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:json options:NSJSONReadingMutableContainers error:nil];
+    if ([dict[@"status"] isEqualToString:@"error"]) {
+        return nil;
+    }
     return [self initWithDictionary:dict];
 }
 

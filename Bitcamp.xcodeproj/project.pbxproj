@@ -24,6 +24,8 @@
 		0CA5D53518EFB46500E2A62F /* BITDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */; };
 		0CA5D53818EFB67700E2A62F /* BITMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D53718EFB67700E2A62F /* BITMainViewController.m */; };
 		0CC0254918EFBF2400F87734 /* BITPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0254818EFBF2400F87734 /* BITPerson.m */; };
+		0CC0254B18F0038C00F87734 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC0254A18F0038C00F87734 /* CoreBluetooth.framework */; };
+		0CC0254D18F0039200F87734 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC0254C18F0039200F87734 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		0CA5D53718EFB67700E2A62F /* BITMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITMainViewController.m; sourceTree = "<group>"; };
 		0CC0254718EFBF2400F87734 /* BITPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITPerson.h; sourceTree = "<group>"; };
 		0CC0254818EFBF2400F87734 /* BITPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITPerson.m; sourceTree = "<group>"; };
+		0CC0254A18F0038C00F87734 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		0CC0254C18F0039200F87734 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CC0254D18F0039200F87734 /* CoreLocation.framework in Frameworks */,
+				0CC0254B18F0038C00F87734 /* CoreBluetooth.framework in Frameworks */,
 				0CA065A418EFA9B0007DF659 /* CoreGraphics.framework in Frameworks */,
 				0CA065A618EFA9B0007DF659 /* UIKit.framework in Frameworks */,
 				0CA065A218EFA9B0007DF659 /* Foundation.framework in Frameworks */,
@@ -110,6 +116,8 @@
 		0CA065A018EFA9B0007DF659 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0CC0254C18F0039200F87734 /* CoreLocation.framework */,
+				0CC0254A18F0038C00F87734 /* CoreBluetooth.framework */,
 				0CA065A118EFA9B0007DF659 /* Foundation.framework */,
 				0CA065A318EFA9B0007DF659 /* CoreGraphics.framework */,
 				0CA065A518EFA9B0007DF659 /* UIKit.framework */,

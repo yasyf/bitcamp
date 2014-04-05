@@ -7,7 +7,6 @@
 //
 
 #import "BITSettingsViewController.h"
-#import <QuartzCore/QuartzCore.h>
 #import "BITPerson.h"
 #import "BITMainViewController.h"
 #import "BITDiscoveryViewController.h"

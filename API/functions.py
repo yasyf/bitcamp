@@ -51,9 +51,12 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 def get_user_json(userid):
 	user = nearby.find_one({'count': int(userid)})
-	user['_id'] = str(user['count'])
-	del user['count']
-	return json.dumps(user)
+	if user:
+		user['_id'] = str(user['count'])
+		del user['count']
+		return json.dumps(user)
+	else:
+		return json.dumps({"status": "error"})
 
 def create_user_json():
 	next_count = counters.find_one({"name": "nearby"})['count'] + 1

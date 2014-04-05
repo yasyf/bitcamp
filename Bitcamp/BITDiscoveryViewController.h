@@ -7,8 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 
-@interface BITDiscoveryViewController : UICollectionViewController
+@interface BITDiscoveryViewController : UICollectionViewController <CBPeripheralManagerDelegate, CLLocationManagerDelegate>
+
+@property (strong, nonatomic) CLBeaconRegion *outgoingBeaconRegion;
+@property (strong, nonatomic) CLBeaconRegion *incomingBeaconRegion;
+@property (strong, nonatomic) NSDictionary *beaconPeripheralData;
+@property (strong, nonatomic) CBPeripheralManager *peripheralManager;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
 - (void)reloadNearby;
 
