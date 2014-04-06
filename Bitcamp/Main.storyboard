@@ -56,24 +56,18 @@
                                     <action selector="didClickImageButton:" destination="Wf6-hR-fhH" eventType="touchUpInside" id="6W2-e0-4pK"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aeW-Bj-1j8">
-                                <rect key="frame" x="120" y="428" width="80" height="80"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aeW-Bj-1j8">
+                                <rect key="frame" x="110" y="415" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="6pk-5G-KBJ"/>
-                                    <constraint firstAttribute="width" constant="80" id="sJV-8L-L3i"/>
-                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="jjl-et-7nj" firstAttribute="trailing" secondItem="O6g-34-YhQ" secondAttribute="trailing" id="5RG-tV-zjt"/>
-                            <constraint firstItem="O3x-uX-nRR" firstAttribute="top" secondItem="aeW-Bj-1j8" secondAttribute="bottom" constant="11" id="9rQ-er-AZ9"/>
                             <constraint firstItem="ejW-BI-ZqU" firstAttribute="top" secondItem="DDa-Mm-w6U" secondAttribute="bottom" constant="20" id="Ejy-1n-Oq1"/>
                             <constraint firstItem="ejW-BI-ZqU" firstAttribute="leading" secondItem="Nvb-dQ-yjF" secondAttribute="leading" constant="20" symbolic="YES" id="Fo8-qo-bTR"/>
                             <constraint firstItem="jjl-et-7nj" firstAttribute="top" secondItem="ejW-BI-ZqU" secondAttribute="bottom" constant="29" id="JBy-Tq-N0E"/>
                             <constraint firstItem="vgq-be-KBc" firstAttribute="leading" secondItem="O6g-34-YhQ" secondAttribute="leading" id="L9d-kP-HH8"/>
-                            <constraint firstItem="aeW-Bj-1j8" firstAttribute="centerX" secondItem="O6g-34-YhQ" secondAttribute="centerX" id="T4B-cI-CF2"/>
                             <constraint firstItem="vgq-be-KBc" firstAttribute="top" secondItem="jjl-et-7nj" secondAttribute="bottom" constant="17" id="eNY-qa-svs"/>
                             <constraint firstItem="jjl-et-7nj" firstAttribute="leading" secondItem="ejW-BI-ZqU" secondAttribute="leading" id="hao-4Q-gz2"/>
                             <constraint firstItem="jjl-et-7nj" firstAttribute="trailing" secondItem="ejW-BI-ZqU" secondAttribute="trailing" id="heA-xd-u4T"/>
