@@ -16,6 +16,7 @@
 @property NSString *image;
 @property NSString *homepage;
 @property NSString *email;
+@property NSString *facebook_id;
 
 + (BITPerson *)personWithIdentifier:(NSString *)identifier;
 

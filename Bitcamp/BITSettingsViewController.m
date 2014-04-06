@@ -49,8 +49,49 @@
             self.emailField.text = person.email;
         }];
     }
+    FBLoginView *loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email"]];
+    loginView.delegate = self;
+    loginView.frame = CGRectOffset(loginView.frame,  (self.view.center.x - (loginView.frame.size.width / 2)), self.view.frame.size.height/2);
+    [self.view addSubview:loginView];
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    return wasHandled;
+}
+
+
+
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *identifier = [userDefaults stringForKey:@"identifier"];
+    
+    __block NSString *image = [NSString string];
+    
+    [[FBRequest requestForMe] startWithCompletionHandler: ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *FBuser, NSError *error) {
+        if (error) {
+            image = nil;
+        }
+        
+        else {
+            image = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=small", [FBuser username]];
+        }
+    }];
+    
+    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:identifier, @"_id", [user objectForKey:@"name"], @"name", [user objectForKey:@"link"], @"homepage", [user objectForKey:@"email"], @"email", [user objectForKey:@"id"], @"facebook_id", image, @"image", nil];
+    BITPerson *person = [[BITPerson alloc] initWithDictionary:data];
+    NSString *identifier1 = [person save];
+    
+    [userDefaults setObject:identifier1 forKey:@"identifier"];
+    [userDefaults synchronize];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateDiscoveryViewController" object:nil];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:0];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

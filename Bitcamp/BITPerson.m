@@ -105,6 +105,7 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com";
         self.imageData = person[@"imageData"];
         self.email = person[@"email"];
         self.homepage = person[@"homepage"];
+        self.facebook_id = person[@"facebook_id"];
     }
     
     return self;
@@ -139,7 +140,7 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com";
     if (self.imageData != nil) {
         self.image = [self saveImage];
     }
-    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.name, @"name", self.image, @"image", self.homepage, @"homepage", self.email, @"email", nil];
+    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.name, @"name", self.image, @"image", self.homepage, @"homepage", self.email, @"email", self.facebook_id, @"facebook_id", nil];
     NSData *json = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
     NSString *update = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
     NSURL *url = [BITPerson URLWithIdentifier:self.identifier method:@"SET" data:[BITPerson escapeURIComponent:update]];
