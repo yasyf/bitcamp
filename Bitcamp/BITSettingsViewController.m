@@ -61,8 +61,6 @@
     return wasHandled;
 }
 
-
-
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

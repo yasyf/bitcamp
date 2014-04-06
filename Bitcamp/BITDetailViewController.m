@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *homepageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
+@property (weak, nonatomic) IBOutlet UIButton *facebookButton;
 
 @end
 
@@ -39,6 +40,9 @@
             self.imageView.image = [UIImage imageWithData:data];
             self.homepageLabel.text = self.person.homepage;
             self.emailLabel.text = self.person.email;
+            if (self.person.facebook_id != nil) {
+                [self.facebookButton setEnabled:YES];
+            }
         }];
     }
 }
@@ -50,6 +54,11 @@
 }
 - (IBAction)doneButtonDidClick:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (IBAction)facebookButtonDidClick:(id)sender {
+    if (self.facebookButton.isEnabled) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://www.facebook.com/%@",self.person.facebook_id]]];
+    }
 }
 
 /*

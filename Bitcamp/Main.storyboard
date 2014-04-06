@@ -137,6 +137,17 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5f-hD-5Mh">
+                                <rect key="frame" x="20" y="269" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Add on Facebook!">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="facebookButtonDidClick:" destination="xki-Uc-CL0" eventType="touchUpInside" id="fWK-kH-PBf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -155,6 +166,7 @@
                     </view>
                     <connections>
                         <outlet property="emailLabel" destination="Rrc-vj-pQR" id="PAS-OC-DSN"/>
+                        <outlet property="facebookButton" destination="E5f-hD-5Mh" id="oyR-rr-xmx"/>
                         <outlet property="homepageLabel" destination="fXf-fR-HU9" id="L8N-62-CHv"/>
                         <outlet property="imageView" destination="gSS-7t-Ey0" id="qKm-Hk-NLK"/>
                         <outlet property="nameLabel" destination="dbx-ue-Ld9" id="Rvv-kG-CMI"/>
