@@ -8,6 +8,7 @@
 
 #import "BITDiscoveryViewController.h"
 #import "BITPerson.h"
+#import "BITCollectionViewCell.h"
 
 @interface BITDiscoveryViewController ()
 
@@ -250,36 +251,6 @@ static NSString *myIdentifier;
 
 
 
-- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
-    BITPerson *person = self.nearby[identifier];
-    NSLog(@"%@",person.name);
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        return NO;
-    }
-    self.isTouching = YES;
-    return YES;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath canMoveToIndexPath:(NSIndexPath *)toIndexPath
-{
-    if (toIndexPath.section == 0 && toIndexPath.row == 0) {
-        if (self.isShowing == NO) {
-            self.isShowing = YES;
-            //Process landing
-            NSLog(@"%@",toIndexPath);
-        }
-    }
-    self.isTouching = NO;
-    return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.isTouching = NO;
-}
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
     BITPerson *person = self.nearby[identifier];
@@ -291,7 +262,7 @@ static NSString *myIdentifier;
 {
     NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
     BITPerson *person = self.nearby[identifier];
-    UICollectionViewCell *cell;
+    BITCollectionViewCell *cell;
     UIImageView *imageView;
     
     if (person.image != nil) {
@@ -338,7 +309,9 @@ static NSString *myIdentifier;
             imageView.layer.cornerRadius = scaleFactor/2.f + 5;
             [imageView.layer setMasksToBounds:YES];
         }
-        //cell.center = CGPointMake((indexPath.row * 20) + 40, heightFactor + 40);
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        cell.center = CGPointMake(((([[numberFormatter numberFromString:person.identifier] intValue] % 3) + 1) * 100) - 150, MAX(heightFactor - 40, 30));
     }
     
     NSMutableString *initials = [NSMutableString string];
@@ -349,6 +322,8 @@ static NSString *myIdentifier;
     
     [view layoutIfNeeded];
     [cell.contentView layoutIfNeeded];
+    
+    cell.person = person;
     
     return cell;
 }

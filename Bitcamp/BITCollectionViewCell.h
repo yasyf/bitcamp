@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BITPerson.h"
 
 @interface BITCollectionViewCell : UICollectionViewCell
+
+@property BITPerson* person;
 
 @end

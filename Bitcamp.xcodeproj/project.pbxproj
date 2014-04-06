@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0C1F8F7918F05D860018C405 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1F8F7818F05D860018C405 /* QuartzCore.framework */; };
-		0C3C4C6518F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C3C4C6418F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout.m */; };
 		0C785D0918F114A60028813E /* BITDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C785D0818F114A60028813E /* BITDetailViewController.m */; };
 		0C8B67E718F06AEB006CCBFF /* BITCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B67E618F06AEB006CCBFF /* BITCollectionViewCell.m */; };
 		0CA065A218EFA9B0007DF659 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA065A118EFA9B0007DF659 /* Foundation.framework */; };
@@ -44,8 +43,6 @@
 
 /* Begin PBXFileReference section */
 		0C1F8F7818F05D860018C405 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		0C3C4C6318F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
-		0C3C4C6418F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		0C785D0718F114A60028813E /* BITDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITDetailViewController.h; sourceTree = "<group>"; };
 		0C785D0818F114A60028813E /* BITDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITDetailViewController.m; sourceTree = "<group>"; };
 		0C8B67E518F06AEB006CCBFF /* BITCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITCollectionViewCell.h; sourceTree = "<group>"; };
@@ -106,19 +103,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0C3C4C6218F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout */ = {
-			isa = PBXGroup;
-			children = (
-				0C3C4C6318F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout.h */,
-				0C3C4C6418F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout.m */,
-			);
-			path = LXReorderableCollectionViewFlowLayout;
-			sourceTree = "<group>";
-		};
 		0CA0659518EFA9B0007DF659 = {
 			isa = PBXGroup;
 			children = (
-				0C3C4C6218F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout */,
 				0CA065A718EFA9B0007DF659 /* Bitcamp */,
 				0CA065C018EFA9B1007DF659 /* BitcampTests */,
 				0CA065A018EFA9B0007DF659 /* Frameworks */,
@@ -302,7 +289,6 @@
 				0CA5D52F18EFACD200E2A62F /* BITSettingsViewController.m in Sources */,
 				0CA5D53818EFB67700E2A62F /* BITMainViewController.m in Sources */,
 				0C785D0918F114A60028813E /* BITDetailViewController.m in Sources */,
-				0C3C4C6518F0727300EAA6A2 /* LXReorderableCollectionViewFlowLayout.m in Sources */,
 				0CA065B218EFA9B0007DF659 /* BITAppDelegate.m in Sources */,
 				0CA065AE18EFA9B0007DF659 /* main.m in Sources */,
 				0CC0254918EFBF2400F87734 /* BITPerson.m in Sources */,
