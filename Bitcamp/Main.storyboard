@@ -128,7 +128,7 @@
                                 <rect key="frame" x="0.0" y="21" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Bitcamp" id="cUR-L4-W8P">
+                                    <navigationItem title="Bubble" id="cUR-L4-W8P">
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="0QU-UL-Ccq">
                                             <connections>
                                                 <action selector="doneButtonDidClick:" destination="xki-Uc-CL0" id="dmo-4D-q9a"/>

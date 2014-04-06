@@ -66,29 +66,28 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *identifier = [userDefaults stringForKey:@"identifier"];
     
-    __block NSString *image = [NSString string];
-    
-    [[FBRequest requestForMe] startWithCompletionHandler: ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *FBuser, NSError *error) {
+    [[FBRequest requestForMe] startWithCompletionHandler: ^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *FBuser, NSError *error)
+    {
+        NSString *image = [NSString string];
         if (error) {
             image = nil;
         }
         
         else {
-            image = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=small", [FBuser username]];
+            image = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser username]];
         }
+        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:identifier, @"_id", [user objectForKey:@"name"], @"name", [user objectForKey:@"link"], @"homepage", [user objectForKey:@"email"], @"email", [user objectForKey:@"id"], @"facebook_id", image, @"image", nil];
+        BITPerson *person = [[BITPerson alloc] initWithDictionary:data];
+        NSString *identifier1 = [person save];
+        
+        [userDefaults setObject:identifier1 forKey:@"identifier"];
+        [userDefaults synchronize];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"updateDiscoveryViewController" object:nil];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
     
-    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:identifier, @"_id", [user objectForKey:@"name"], @"name", [user objectForKey:@"link"], @"homepage", [user objectForKey:@"email"], @"email", [user objectForKey:@"id"], @"facebook_id", image, @"image", nil];
-    BITPerson *person = [[BITPerson alloc] initWithDictionary:data];
-    NSString *identifier1 = [person save];
-    
-    [userDefaults setObject:identifier1 forKey:@"identifier"];
-    [userDefaults synchronize];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateDiscoveryViewController" object:nil];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:0];
 }
 - (void)didReceiveMemoryWarning
 {
