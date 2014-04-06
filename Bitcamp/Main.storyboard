@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Settings View Controller - Item-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="TCn-7G-u1V">
             <objects>
                 <viewController id="Wf6-hR-fhH" customClass="BITSettingsViewController" sceneMemberID="viewController">
@@ -71,7 +71,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="HW8-HB-L8L"/>
+                    <tabBarItem key="tabBarItem" title="Settings" id="HW8-HB-L8L"/>
                     <navigationItem key="navigationItem" id="Alr-Eq-Yap"/>
                     <connections>
                         <outlet property="emailField" destination="6xU-kZ-Meq" id="bS2-vm-roP"/>
@@ -129,7 +129,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Bitcamp" id="cUR-L4-W8P">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="0QU-UL-Ccq"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="0QU-UL-Ccq">
+                                            <connections>
+                                                <action selector="doneButtonDidClick:" destination="xki-Uc-CL0" id="dmo-4D-q9a"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -163,7 +167,7 @@
             </objects>
             <point key="canvasLocation" x="825" y="-614"/>
         </scene>
-        <!--Discovery View Controller - Item-->
+        <!--Discovery View Controller - Explore-->
         <scene sceneID="8By-Zx-kxx">
             <objects>
                 <collectionViewController autoresizesArchivedViewToFullSize="NO" id="sVC-R9-cGM" customClass="BITDiscoveryViewController" sceneMemberID="viewController">
@@ -176,6 +180,12 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
+                        <view key="backgroundView" contentMode="scaleToFill" id="4M9-K9-6HB">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="discoveryTextCell" id="CyJ-am-qeG" customClass="BITCollectionViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
@@ -208,7 +218,6 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="7MM-2c-2dz" firstAttribute="leading" secondItem="CyJ-am-qeG" secondAttribute="leading" id="LtO-S3-VXV"/>
                                     <constraint firstAttribute="trailing" secondItem="7MM-2c-2dz" secondAttribute="trailing" id="Q2v-5B-RZi"/>
@@ -256,7 +265,6 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="67b-ji-Uf5" secondAttribute="trailing" id="4ik-Ie-HS3"/>
                                     <constraint firstAttribute="bottom" secondItem="67b-ji-Uf5" secondAttribute="bottom" id="byj-dt-X7e"/>
@@ -271,8 +279,9 @@
                             <outlet property="delegate" destination="sVC-R9-cGM" id="JZP-Yy-eTf"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Item" id="NcI-QW-SxB"/>
+                    <tabBarItem key="tabBarItem" title="Explore" id="NcI-QW-SxB"/>
                     <connections>
+                        <outlet property="videoView" destination="4M9-K9-6HB" id="avT-ko-Dg3"/>
                         <segue destination="xki-Uc-CL0" kind="modal" identifier="detailSegue" id="lAk-CJ-YUa"/>
                     </connections>
                 </collectionViewController>

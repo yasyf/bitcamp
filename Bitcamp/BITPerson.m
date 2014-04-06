@@ -128,9 +128,13 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com";
 - (NSString *)save
 {
     if (self.identifier == nil) {
-        NSData *identifierData = [NSData dataWithContentsOfURL:[BITPerson URLWithIdentifier:nil method:@"CREATE"]];
-        NSDictionary *newUser = [NSJSONSerialization JSONObjectWithData:identifierData options:NSJSONReadingMutableContainers error:nil];
-        self.identifier = newUser[@"userid"];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        self.identifier = [userDefaults stringForKey:@"identifier"];
+        if (self.identifier) {
+            NSData *identifierData = [NSData dataWithContentsOfURL:[BITPerson URLWithIdentifier:nil method:@"CREATE"]];
+            NSDictionary *newUser = [NSJSONSerialization JSONObjectWithData:identifierData options:NSJSONReadingMutableContainers error:nil];
+            self.identifier = newUser[@"userid"];
+        }
     }
     if (self.imageData != nil) {
         self.image = [self saveImage];

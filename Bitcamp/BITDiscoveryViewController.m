@@ -11,6 +11,8 @@
 #import "BITCollectionViewCell.h"
 #import "BITStorageButton.h"
 
+#import <AVFoundation/AVFoundation.h>
+
 @interface BITDiscoveryViewController ()
 
     @property NSMutableDictionary *nearby;
@@ -18,6 +20,8 @@
     @property BITPerson *me;
     @property BOOL isTouching;
     @property BOOL isShowing;
+    @property AVCaptureSession* captureSession;
+    @property (weak, nonatomic) IBOutlet UIView *videoView;
 
 @end
     
@@ -155,6 +159,8 @@ static NSString *myIdentifier;
     if (![newOrder isEqualToArray:self.order] || changed == YES) {
         self.order = newOrder;
         NSUInteger count = [self.order count];
+        [[[[[self tabBarController] tabBar] items]
+          objectAtIndex:0] setBadgeValue:[NSString stringWithFormat:@"%lu",count]];
         if (count > 0) {
             NSLog(@"Reloading (%lu People)", (unsigned long)count);
             [self reloadNearby];
@@ -179,6 +185,23 @@ static NSString *myIdentifier;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSError *error = nil;
+    self.captureSession = [AVCaptureSession new];
+    self.captureSession.sessionPreset = AVCaptureSessionPresetHigh;
+    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+    [self.captureSession addInput:input];
+     dispatch_async(dispatch_get_main_queue(), ^{
+        AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.captureSession];
+        UIView *view = self.videoView;
+        [previewLayer setBackgroundColor:[[UIColor blackColor] CGColor]];
+        CALayer *viewLayer = [view layer];
+        previewLayer.frame = view.bounds;
+        [viewLayer setMasksToBounds:YES];
+        [previewLayer setFrame:[viewLayer bounds]];
+        [viewLayer addSublayer:previewLayer];
+        [self.captureSession startRunning];
+     });
     
     for (UIGestureRecognizer *guestureRecognizer in self.collectionView.gestureRecognizers) {
         guestureRecognizer.cancelsTouchesInView = NO;
@@ -204,6 +227,7 @@ static NSString *myIdentifier;
     [self reloadNearby];
         
     [self locationManager:self.locationManager didStartMonitoringForRegion:self.incomingBeaconRegion];
+    
     
     
 }

@@ -45,6 +45,8 @@
             self.imageView.layer.cornerRadius = self.imageView.frame.size.height/2.f;
             [self.imageView.layer setMasksToBounds:YES];
             self.imageView.image = [UIImage imageWithData:data];
+            self.homepageField.text = person.homepage;
+            self.emailField.text = person.email;
         }];
     }
 }
@@ -108,8 +110,8 @@
     
     if (valid == YES) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *_id = [userDefaults stringForKey:@"identifier"];
-        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:@"_id", _id ,self.nameField.text, @"name", self.homepageField, @"homepage", self.emailField, @"email", self.image, @"imageData", nil];
+        NSString *identifier1 = [userDefaults stringForKey:@"identifier"];
+        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:@"_id", identifier1 ,self.nameField.text, @"name", self.homepageField.text, @"homepage", self.emailField.text, @"email", self.image, @"imageData", nil];
         BITPerson *user = [[BITPerson alloc] initWithDictionary:data];
         NSString *identifier = [user save];
         
