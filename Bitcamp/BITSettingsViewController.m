@@ -76,7 +76,20 @@
         else {
             image = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser username]];
         }
-        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:identifier, @"_id", [user objectForKey:@"name"], @"name", [user objectForKey:@"link"], @"homepage", [user objectForKey:@"email"], @"email", [user objectForKey:@"id"], @"facebook_id", image, @"image", nil];
+        NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithObjectsAndKeys:identifier, @"_id", [user objectForKey:@"name"], @"name", nil];
+        if ([user objectForKey:@"link"] != nil) {
+            data[@"homepage"] = [user objectForKey:@"link"];
+        }
+        if ([user objectForKey:@"link"] != nil) {
+            data[@"email"] = [user objectForKey:@"email"];
+        }
+        if ([user objectForKey:@"link"] != nil) {
+            data[@"facebook_id"] = [user objectForKey:@"id"];
+        }
+        if (image != nil) {
+            data[@"image"] = image;
+        }
+        
         BITPerson *person = [[BITPerson alloc] initWithDictionary:data];
         NSString *identifier1 = [person save];
         
@@ -149,7 +162,18 @@
     if (valid == YES) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSString *identifier1 = [userDefaults stringForKey:@"identifier"];
-        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:@"_id", identifier1 ,self.nameField.text, @"name", self.homepageField.text, @"homepage", self.emailField.text, @"email", self.image, @"imageData", nil];
+        
+        NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithObjectsAndKeys:identifier1, @"_id",self.nameField.text, @"name", nil];
+        if (self.homepageField.text != nil) {
+            data[@"homepage"] = self.homepageField.text;
+        }
+        if (self.emailField.text != nil) {
+            data[@"email"] = self.emailField.text;
+        }
+        if (self.image != nil) {
+            data[@"imageData"] = self.image;
+        }
+        
         BITPerson *user = [[BITPerson alloc] initWithDictionary:data];
         NSString *identifier = [user save];
         

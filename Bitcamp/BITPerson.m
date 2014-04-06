@@ -131,7 +131,7 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com";
     if (self.identifier == nil) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         self.identifier = [userDefaults stringForKey:@"identifier"];
-        if (self.identifier) {
+        if (self.identifier == nil) {
             NSData *identifierData = [NSData dataWithContentsOfURL:[BITPerson URLWithIdentifier:nil method:@"CREATE"]];
             NSDictionary *newUser = [NSJSONSerialization JSONObjectWithData:identifierData options:NSJSONReadingMutableContainers error:nil];
             self.identifier = newUser[@"userid"];
@@ -140,7 +140,21 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com";
     if (self.imageData != nil) {
         self.image = [self saveImage];
     }
-    NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.name, @"name", self.image, @"image", self.homepage, @"homepage", self.email, @"email", self.facebook_id, @"facebook_id", nil];
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.name, @"name", nil];
+    if (self.facebook_id != nil) {
+        data[@"facebook_id"] = self.facebook_id;
+    }
+    if (self.email != nil) {
+        data[@"email"] = self.email;
+    }
+    if (self.homepage != nil) {
+        data[@"homepage"] = self.homepage;
+    }
+    if (self.image != nil) {
+        data[@"image"] = self.image;
+    }
+    
     NSData *json = [NSJSONSerialization dataWithJSONObject:data options:0 error:nil];
     NSString *update = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
     NSURL *url = [BITPerson URLWithIdentifier:self.identifier method:@"SET" data:[BITPerson escapeURIComponent:update]];
