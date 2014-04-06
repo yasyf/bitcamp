@@ -146,8 +146,8 @@ static NSString *myIdentifier;
         
         
         
-        NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
-        NSLog(@"%@", beacon);
+        //NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
+        //NSLog(@"%@", beacon);
         
     }
     if (![newOrder isEqualToArray:self.order] || changed == YES) {
@@ -252,8 +252,9 @@ static NSString *myIdentifier;
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"SEC: %ld",(long)indexPath.section);
-    NSLog(@"ITEM: %ld",(long)indexPath.item);
+    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
+    BITPerson *person = self.nearby[identifier];
+    NSLog(@"%@",person.name);
     if (indexPath.section == 0 && indexPath.row == 0) {
         return NO;
     }
@@ -337,7 +338,7 @@ static NSString *myIdentifier;
             imageView.layer.cornerRadius = scaleFactor/2.f + 5;
             [imageView.layer setMasksToBounds:YES];
         }
-        cell.center = CGPointMake((indexPath.row * 20) + 40, heightFactor + 40);
+        //cell.center = CGPointMake((indexPath.row * 20) + 40, heightFactor + 40);
     }
     
     NSMutableString *initials = [NSMutableString string];

@@ -14,6 +14,8 @@
 @property NSInteger proximity;
 @property NSString *name;
 @property NSString *image;
+@property NSString *homepage;
+@property NSString *email;
 
 + (BITPerson *)personWithIdentifier:(NSString *)identifier;
 

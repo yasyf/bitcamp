@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property UIImage *image;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UITextField *homepageField;
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
 
 @end
 
@@ -104,7 +106,7 @@
     }
     
     if (valid == YES) {
-        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", self.image, @"imageData", nil];
+        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", self.homepageField, @"homepage", self.emailField, @"email", self.image, @"imageData", nil];
         BITPerson *user = [[BITPerson alloc] initWithDictionary:data];
         NSString *identifier = [user save];
         
