@@ -252,7 +252,9 @@ static NSString *myIdentifier;
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
 {
-        if (indexPath.section == 0 && indexPath.row == 0) {
+    NSLog(@"SEC: %ld",(long)indexPath.section);
+    NSLog(@"ITEM: %ld",(long)indexPath.item);
+    if (indexPath.section == 0 && indexPath.row == 0) {
         return NO;
     }
     self.isTouching = YES;
@@ -277,9 +279,16 @@ static NSString *myIdentifier;
     self.isTouching = NO;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
+    BITPerson *person = self.nearby[identifier];
+    CGFloat scaleFactor = pow((person.proximity),-.5)*100;
+    return CGSizeMake(scaleFactor,scaleFactor);
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.row)];
+    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
     BITPerson *person = self.nearby[identifier];
     UICollectionViewCell *cell;
     UIImageView *imageView;
@@ -289,6 +298,7 @@ static NSString *myIdentifier;
         imageView = (UIImageView *)[cell viewWithTag:1];
         [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             imageView.image = [UIImage imageWithData:data];
+            [imageView layoutIfNeeded];
         }];
     }
     else{
@@ -296,7 +306,7 @@ static NSString *myIdentifier;
     }
     
     CGFloat heightFactor = .5*(3-person.proximity)*(self.view.frame.size.height - 175);
-    CGFloat scaleFactor = pow((person.proximity),-.5)*80;
+    CGFloat scaleFactor = pow((person.proximity),-.5)*100.f;
     UIView *view = (UIView *)[cell viewWithTag:10];
     UIButton *button = (UIButton *)[cell viewWithTag:2];
     
@@ -306,12 +316,12 @@ static NSString *myIdentifier;
         view.layer.borderWidth = 1;
         view.layer.borderColor = [[UIColor colorWithRed:0 green:0.475 blue:1 alpha:1] CGColor]; /*#0079ff*/
         view.frame = CGRectMake(0, 0, 80, 80);
-        view.layer.cornerRadius = (80)/2.f;
+        view.layer.cornerRadius = (80)/2.f + 8;
         [view.layer setMasksToBounds:YES];
         view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
         if (imageView != nil) {
             imageView.frame = CGRectMake(0, 0, 80, 80);
-            imageView.layer.cornerRadius = (80)/2.f;
+            imageView.layer.cornerRadius = (80)/2.f + 8;
             [imageView.layer setMasksToBounds:YES];
         }
         cell.center = CGPointMake(self.view.frame.size.width/2.f, self.view.frame.size.height - (80 + 20));
@@ -324,21 +334,20 @@ static NSString *myIdentifier;
         view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
         if (imageView != nil) {
             imageView.frame = CGRectMake(0, 0, scaleFactor, scaleFactor);
-            imageView.layer.cornerRadius = scaleFactor/2.f;
+            imageView.layer.cornerRadius = scaleFactor/2.f + 5;
             [imageView.layer setMasksToBounds:YES];
         }
         cell.center = CGPointMake((indexPath.row * 20) + 40, heightFactor + 40);
     }
     
-    button.center = button.superview.center;
     NSMutableString *initials = [NSMutableString string];
     [[person.name componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
         [initials appendString:[obj substringToIndex:1]];
     }];
     [button setTitle:initials forState:UIControlStateNormal];
     
-    
-
+    [view layoutIfNeeded];
+    [cell.contentView layoutIfNeeded];
     
     return cell;
 }

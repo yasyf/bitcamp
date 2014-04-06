@@ -33,7 +33,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *identifier = [userDefaults stringForKey:@"identifier"];
+    if (identifier != nil) {
+        BITPerson *person = [BITPerson personWithIdentifier:identifier];
+        self.nameField.text = person.name;
+        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            self.imageView.frame = CGRectMake(self.view.frame.size.width/2 - self.imageView.frame.size.height/2, self.view.frame.size.height/2 + 1.5*self.imageView.frame.size.height, self.imageView.frame.size.height, self.imageView.frame.size.height);
+            self.imageView.layer.cornerRadius = self.imageView.frame.size.height/2.f;
+            [self.imageView.layer setMasksToBounds:YES];
+            self.imageView.image = [UIImage imageWithData:data];
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
