@@ -37,6 +37,8 @@
             self.imageView.layer.cornerRadius = self.imageView.frame.size.height/2.f;
             [self.imageView.layer setMasksToBounds:YES];
             self.imageView.image = [UIImage imageWithData:data];
+            self.homepageLabel.text = self.person.homepage;
+            self.emailLabel.text = self.person.email;
         }];
     }
 }

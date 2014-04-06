@@ -103,6 +103,8 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com";
         self.identifier = person[@"_id"];
         self.image = person[@"image"];
         self.imageData = person[@"imageData"];
+        self.email = person[@"email"];
+        self.homepage = person[@"homepage"];
     }
     
     return self;

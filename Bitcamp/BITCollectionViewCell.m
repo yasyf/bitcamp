@@ -21,12 +21,12 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@1, @"isTouching", nil];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@1, @"isTouching", self.person, @"person", nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"toggleTouches" object:self userInfo:userInfo];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@0, @"isTouching", nil];
+    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:@0, @"isTouching", self.person, @"person", nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"toggleTouches" object:self userInfo:userInfo];
 }
 

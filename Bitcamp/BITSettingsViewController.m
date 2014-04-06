@@ -77,6 +77,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     self.image = info[UIImagePickerControllerOriginalImage];
+    self.imageView.image = self.image;
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -93,7 +94,7 @@
     return YES;
 }
 
-- (IBAction)didClickSaveButton:(UIButton *)sender {
+- (IBAction)didClickSaveButton:(UIBarButtonItem *)sender {
     
     BOOL valid = YES;
     
@@ -106,17 +107,19 @@
     }
     
     if (valid == YES) {
-        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:self.nameField.text, @"name", self.homepageField, @"homepage", self.emailField, @"email", self.image, @"imageData", nil];
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *_id = [userDefaults stringForKey:@"identifier"];
+        NSDictionary *data = [[NSDictionary alloc] initWithObjectsAndKeys:@"_id", _id ,self.nameField.text, @"name", self.homepageField, @"homepage", self.emailField, @"email", self.image, @"imageData", nil];
         BITPerson *user = [[BITPerson alloc] initWithDictionary:data];
         NSString *identifier = [user save];
         
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:identifier forKey:@"identifier"];
         [userDefaults synchronize];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:@"updateDiscoveryViewController" object:nil];
         
         [self dismissViewControllerAnimated:YES completion:nil];
+        self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:0];
     }
 }
 

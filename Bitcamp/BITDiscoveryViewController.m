@@ -9,6 +9,7 @@
 #import "BITDiscoveryViewController.h"
 #import "BITPerson.h"
 #import "BITCollectionViewCell.h"
+#import "BITStorageButton.h"
 
 @interface BITDiscoveryViewController ()
 
@@ -170,7 +171,9 @@ static NSString *myIdentifier;
     NSDictionary* userInfo = notification.userInfo;
     BOOL isTouching = (BOOL) ([[userInfo objectForKey:@"isTouching"]  isEqual: @1]);
     self.isTouching = isTouching;
-    NSLog(@"isTouching: %d", isTouching);
+    BITPerson *person = userInfo[@"person"];
+    NSLog(@"isTouching: %@", person.name);
+    [self showDetailsForPerson:person];
 }
 
 - (void)viewDidLoad
@@ -258,6 +261,17 @@ static NSString *myIdentifier;
     return CGSizeMake(scaleFactor,scaleFactor);
 }
 
+- (void)showDetailsForPerson:person
+{
+    [self performSegueWithIdentifier:@"detailSegue" sender:person];
+}
+
+- (void)showDetailsForButton:button event:event
+{
+    BITCollectionViewCell *viewCell = (BITCollectionViewCell *)[[button superview] superview];
+    [self performSegueWithIdentifier:@"detailSegue" sender:viewCell.person];
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
@@ -279,8 +293,8 @@ static NSString *myIdentifier;
     
     CGFloat heightFactor = .5*(3-person.proximity)*(self.view.frame.size.height - 175);
     CGFloat scaleFactor = pow((person.proximity),-.5)*100.f;
-    UIView *view = (UIView *)[cell viewWithTag:10];
-    UIButton *button = (UIButton *)[cell viewWithTag:2];
+    BITCollectionViewCell *view = (BITCollectionViewCell *)[cell viewWithTag:10];
+    BITStorageButton *button = (BITStorageButton *)[cell viewWithTag:2];
     
     
     if ([person.identifier isEqualToString:self.me.identifier]) {
@@ -319,24 +333,29 @@ static NSString *myIdentifier;
         [initials appendString:[obj substringToIndex:1]];
     }];
     [button setTitle:initials forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(showDetailsForButton:event:) forControlEvents:UIControlEventTouchUpInside];
     
     [view layoutIfNeeded];
     [cell.contentView layoutIfNeeded];
     
     cell.person = person;
+    view.person = person;
+    button.person = person;
     
     return cell;
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"detailSegue"]) {
+        BITCollectionViewCell *dest = segue.destinationViewController;
+        dest.person = sender;
+    }
 }
-*/
+
 
 @end
