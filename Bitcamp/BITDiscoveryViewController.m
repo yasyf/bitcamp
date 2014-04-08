@@ -8,15 +8,15 @@
 
 #import "BITDiscoveryViewController.h"
 #import "BITPerson.h"
-#import "BITCollectionViewCell.h"
-#import "BITStorageButton.h"
+#import "BITNullPerson.h"
+#import "BITCollectionCell.h"
 
 #import <AVFoundation/AVFoundation.h>
 
 @interface BITDiscoveryViewController ()
 
     @property NSMutableDictionary *nearby;
-    @property NSMutableArray *order;
+    @property NSMutableDictionary *order;
     @property BITPerson *me;
     @property BOOL isTouching;
     @property BOOL isShowing;
@@ -49,18 +49,23 @@ static NSString *myIdentifier;
     if (myIdentifier != nil && self.nearby[myIdentifier] == nil) {
         if (self.me == nil) {
             self.me = [BITPerson personWithIdentifier:myIdentifier];
-            self.me.proximity = 1;
+            self.me.proximity = 3;
         }
         self.nearby[myIdentifier] = self.me;
-        self.order = [NSMutableArray arrayWithArray:@[myIdentifier]];
+        self.order = [self baseArrayWithWidth:3];
+        self.order[@3][0] = myIdentifier;
+    }
+    
+    if (self.nearby[@"-1"] == nil) {
+        self.nearby[@"-1"] = [[BITNullPerson alloc] init];
     }
     
     [self.collectionView reloadData];
     
-    if ([self.order count] > 1) {
-        BITPerson *person = (BITPerson *)self.nearby[self.order[1]];
+    if ([self.order[@3] count] > 1) {
+        BITPerson *person = (BITPerson *)self.nearby[self.order[@3][1]];
         if (person.proximity == 1 && person.seen == NO) {
-            [self showDetailsForPerson:person];
+            //[self showDetailsForPerson:person];
         }
     }
 }
@@ -112,13 +117,27 @@ static NSString *myIdentifier;
     [self.locationManager stopRangingBeaconsInRegion:self.incomingBeaconRegion];
 }
 
+- (NSMutableDictionary *)baseArrayWithWidth:(NSInteger)width
+{
+    NSMutableDictionary *baseArray = [NSMutableDictionary dictionaryWithDictionary:@{@3: [NSMutableArray array], @2: [NSMutableArray array], @1: [NSMutableArray array]}];
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < width; j++) {
+            baseArray[[NSNumber numberWithInt:i+1]][j] = @"-1";
+        }
+    }
+    return baseArray;
+}
+
 - (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
     if (myIdentifier == nil) {
         return;
     }
-    NSMutableArray *newTempOrder = [NSMutableArray arrayWithArray:@[@[myIdentifier, @-800]]];
-    NSMutableArray *newOrder = [NSMutableArray arrayWithArray:@[myIdentifier]];
+    NSMutableDictionary *newTempOrder = [NSMutableDictionary dictionaryWithDictionary:@{@3: [NSMutableArray array], @2: [NSMutableArray array], @1: [NSMutableArray array]}];
+    newTempOrder[@3][0] = [NSMutableArray arrayWithArray:@[myIdentifier, @-800]];
+    
+    NSMutableDictionary *newOrder = [self baseArrayWithWidth:3];
+    newOrder[@3][0] = myIdentifier;
     BOOL changed = NO;
     for (CLBeacon *beacon in beacons) {
         
@@ -136,36 +155,37 @@ static NSString *myIdentifier;
                 continue;
             }
         }
-        else
-        {
+        
+        else {
             person = self.nearby[identifier];
         }
         
-        if (person.proximity != beacon.proximity) {
-            person.proximity = beacon.proximity;
+        if (person.proximity != (4-beacon.proximity)) {
+            person.proximity = (4-beacon.proximity);
             changed = YES;
         }
         
         self.nearby[identifier] = person;
         
         NSArray *node = @[identifier, [NSNumber numberWithLong:beacon.rssi]];
-        NSUInteger index = [newTempOrder indexOfObject:node inSortedRange:(NSRange){0, [newTempOrder count]} options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(NSArray* a, NSArray* b){
+        NSUInteger index = [newTempOrder[[NSNumber numberWithInteger:person.proximity]] indexOfObject:node inSortedRange:(NSRange){0, [newTempOrder[[NSNumber numberWithInteger:person.proximity]] count]} options:NSBinarySearchingInsertionIndex usingComparator:^NSComparisonResult(NSArray* a, NSArray* b){
             NSNumber *one = a[1];
             NSNumber *two = b[1];
             return [one compare:two];
         }];
-        [newTempOrder insertObject:node atIndex:index];
-        [newOrder insertObject:identifier atIndex:index];
+        [newTempOrder[[NSNumber numberWithInteger:person.proximity]] insertObject:node atIndex:index];
+        [newOrder[[NSNumber numberWithInteger:person.proximity]] insertObject:identifier atIndex:index];
         
         
         
-        //NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
+        NSLog(@"Logged Person %@ (P=%lu)", identifier, person.proximity);
         //NSLog(@"%@", beacon);
         
     }
-    if (![newOrder isEqualToArray:self.order] || changed == YES) {
+    if (changed == YES || ![newOrder isEqualToDictionary:self.order]) {
         self.order = newOrder;
-        NSUInteger count = [self.order count];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF != '-1'"];
+        NSUInteger count = [[self.order[@0] filteredArrayUsingPredicate:predicate] count] + [[self.order[@1] filteredArrayUsingPredicate:predicate] count] + [[self.order[@2] filteredArrayUsingPredicate:predicate] count];
         [[[[[self tabBarController] tabBar] items]
           objectAtIndex:0] setBadgeValue:[NSString stringWithFormat:@"%lu",count]];
         if (count > 0) {
@@ -218,7 +238,7 @@ static NSString *myIdentifier;
     self.isShowing = NO;
     
     self.nearby = [NSMutableDictionary dictionary];
-    self.order = [NSMutableArray array];
+    self.order = [NSMutableDictionary dictionary];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNearby) name:@"updateDiscoveryViewController" object:nil];
     
@@ -247,35 +267,13 @@ static NSString *myIdentifier;
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 3;
+    return 4;
 }
 
-- (NSInteger)numberOfItemsBelowSection:(NSInteger)section
-{
-    NSInteger count = 0;
-    
-    for (NSString *identifier in self.order) {
-        BITPerson *person = self.nearby[identifier];
-        if (person.proximity < section + 1) {
-            count += 1;
-        }
-    }
-    
-    return count;
-}
 
 - (NSInteger)numberOfItemsInSection:(NSInteger)section
 {
-    NSInteger count = 0;
-    
-    for (NSString *identifier in self.order) {
-        BITPerson *person = self.nearby[identifier];
-        if (person.proximity == section + 1) {
-            count += 1;
-        }
-    }
-    
-    return count;
+    return [self.order[[NSNumber numberWithInteger:section]] count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -284,94 +282,81 @@ static NSString *myIdentifier;
 }
 
 
+//
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    NSNumber *identifier = self.order[[NSNumber numberWithInteger:indexPath.section]][indexPath.item];
+//    BITPerson *person = self.nearby[identifier];
+//    CGFloat scaleFactor = pow((4-person.proximity),-.5)*100;
+//    return CGSizeMake(scaleFactor,scaleFactor);
+//}
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
-    BITPerson *person = self.nearby[identifier];
-    CGFloat scaleFactor = pow((person.proximity),-.5)*100;
-    return CGSizeMake(scaleFactor,scaleFactor);
-}
 
 - (void)showDetailsForPerson:person
 {
     [self performSegueWithIdentifier:@"detailSegue" sender:person];
 }
 
-- (void)showDetailsForButton:button event:event
-{
-    BITCollectionViewCell *viewCell = (BITCollectionViewCell *)[[button superview] superview];
-    [self performSegueWithIdentifier:@"detailSegue" sender:viewCell.person];
-}
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSNumber *identifier = [self.order objectAtIndex:([self numberOfItemsBelowSection:indexPath.section] + indexPath.item)];
+    NSNumber *identifier = self.order[[NSNumber numberWithInteger:indexPath.section]][indexPath.item];
     BITPerson *person = self.nearby[identifier];
-    BITCollectionViewCell *cell;
+    BITCollectionCell *cell;
     UIImageView *imageView;
     
-    if (person.image != nil) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryImageCell" forIndexPath:indexPath];
-        imageView = (UIImageView *)[cell viewWithTag:1];
-        [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            imageView.image = [UIImage imageWithData:data];
-            [imageView layoutIfNeeded];
-        }];
-    }
-    else{
+    CGFloat scaleFactor = pow(4-indexPath.section,-.5)*100.f;
+    
+    if ([person.identifier isEqual: @"-1"]) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
+        UIButton *button = cell.button;
+        [button setTitle:@"JEDGIG" forState:UIControlStateNormal];
     }
     
-    CGFloat heightFactor = .5*(3-person.proximity)*(self.view.frame.size.height - 175);
-    CGFloat scaleFactor = pow((person.proximity),-.5)*100.f;
-    BITCollectionViewCell *view = (BITCollectionViewCell *)[cell viewWithTag:10];
-    BITStorageButton *button = (BITStorageButton *)[cell viewWithTag:2];
-    
-    
-    if ([person.identifier isEqualToString:self.me.identifier]) {
-        button.frame = CGRectMake(0, 0, 80, 80);
-        view.layer.borderWidth = 1;
-        view.layer.borderColor = [[UIColor colorWithRed:0 green:0.475 blue:1 alpha:1] CGColor]; /*#0079ff*/
-        view.frame = CGRectMake(0, 0, 80, 80);
-        view.layer.cornerRadius = (80)/2.f + 8;
-        [view.layer setMasksToBounds:YES];
-        view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
-        if (imageView != nil) {
-            imageView.frame = CGRectMake(0, 0, 80, 80);
-            imageView.layer.cornerRadius = (80)/2.f + 8;
-            [imageView.layer setMasksToBounds:YES];
-        }
-        cell.center = CGPointMake(self.view.frame.size.width/2.f, self.view.frame.size.height - (80 + 20));
-    }
     else {
-        button.frame = CGRectMake(0, 0, scaleFactor, scaleFactor);
-        view.frame = CGRectMake(0, 0, scaleFactor, scaleFactor);
-        view.layer.cornerRadius = scaleFactor/2.f;
-        [view.layer setMasksToBounds:YES];
-        view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
-        if (imageView != nil) {
-            imageView.frame = CGRectMake(0, 0, scaleFactor, scaleFactor);
-            imageView.layer.cornerRadius = scaleFactor/2.f + 5;
-            [imageView.layer setMasksToBounds:YES];
+        if (person.image != nil) {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryImageCell" forIndexPath:indexPath];
+            UIButton *button = cell.button;
+            imageView = (UIImageView *)[cell viewWithTag:1];
+            [NSURLConnection sendAsynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:person.image]] queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                imageView.image = [UIImage imageWithData:data];
+                [imageView layoutIfNeeded];
+            }];
         }
-        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-        [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        cell.center = CGPointMake(((([[numberFormatter numberFromString:person.identifier] intValue] % 3) + 1) * 100) - 150, MAX(heightFactor - 40, 30));
+        else{
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"discoveryTextCell" forIndexPath:indexPath];
+        }
+        
+     
+        
+        
+//        if ([person.identifier isEqualToString:self.me.identifier]) {
+//            view.layer.borderWidth = 1;
+//            view.layer.borderColor = [[UIColor colorWithRed:0 green:0.475 blue:1 alpha:1] CGColor]; /*#0079ff*/
+//            view.layer.cornerRadius = (80)/2.f + 8;
+//            [view.layer setMasksToBounds:YES];
+//            view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
+//            if (imageView != nil) {
+//                imageView.layer.cornerRadius = (80)/2.f + 8;
+//                [imageView.layer setMasksToBounds:YES];
+//            }
+//        }
+//        else {
+//            view.layer.cornerRadius = scaleFactor/2.f;
+//            [view.layer setMasksToBounds:YES];
+//            view.layer.shadowPath = [[UIBezierPath bezierPathWithRoundedRect:view.bounds cornerRadius:view.layer.cornerRadius] CGPath];
+//            if (imageView != nil) {
+//                imageView.layer.cornerRadius = scaleFactor/2.f + 5;
+//                [imageView.layer setMasksToBounds:YES];
+//            }
+//        }
+        
+
+        
+        [cell.contentView layoutIfNeeded];
+        
+        cell.person = person;
+        
+        //NSLog(@"%@ at (%lu, %lu)", person.name, indexPath.section, indexPath.item);
     }
-    
-    NSMutableString *initials = [NSMutableString string];
-    [[person.name componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
-        [initials appendString:[obj substringToIndex:1]];
-    }];
-    [button setTitle:initials forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(showDetailsForButton:event:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [view layoutIfNeeded];
-    [cell.contentView layoutIfNeeded];
-    
-    cell.person = person;
-    view.person = person;
-    button.person = person;
     
     return cell;
 }
@@ -383,7 +368,7 @@ static NSString *myIdentifier;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"detailSegue"]) {
-        BITCollectionViewCell *dest = segue.destinationViewController;
+        BITCollectionCell *dest = segue.destinationViewController;
         dest.person = sender;
     }
 }

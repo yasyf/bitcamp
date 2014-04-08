@@ -1,14 +1,14 @@
 //
-//  BITStorageButton.m
+//  BITButtonCell.m
 //  Bitcamp
 //
-//  Created by Yasyf Mohamedali on 2014-04-06.
+//  Created by Yasyf Mohamedali on 2014-04-08.
 //  Copyright (c) 2014 Yasyf Mohamedali. All rights reserved.
 //
 
-#import "BITStorageButton.h"
+#import "BITButtonCell.h"
 
-@implementation BITStorageButton
+@implementation BITButtonCell
 
 - (id)initWithFrame:(CGRect)frame
 {

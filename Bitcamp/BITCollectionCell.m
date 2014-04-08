@@ -1,14 +1,14 @@
 //
-//  BITCollectionViewCell.m
+//  BITCollectionCell.m
 //  Bitcamp
 //
-//  Created by Yasyf Mohamedali on 2014-04-05.
+//  Created by Yasyf Mohamedali on 2014-04-08.
 //  Copyright (c) 2014 Yasyf Mohamedali. All rights reserved.
 //
 
-#import "BITCollectionViewCell.h"
+#import "BITCollectionCell.h"
 
-@implementation BITCollectionViewCell
+@implementation BITCollectionCell
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -18,6 +18,7 @@
     }
     return self;
 }
+
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -30,13 +31,14 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"toggleTouches" object:self userInfo:userInfo];
 }
 
+
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 @end

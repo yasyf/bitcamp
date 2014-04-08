@@ -20,5 +20,6 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
 - (void)reloadNearby;
+- (NSMutableDictionary *)baseArrayWithWidth:(NSInteger)width;
 
 @end

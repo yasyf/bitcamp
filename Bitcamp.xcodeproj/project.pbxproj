@@ -10,8 +10,6 @@
 		0C1F8F7918F05D860018C405 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1F8F7818F05D860018C405 /* QuartzCore.framework */; };
 		0C59E22318F1481100604FAD /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C59E22218F1481100604FAD /* FacebookSDK.framework */; };
 		0C785D0918F114A60028813E /* BITDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C785D0818F114A60028813E /* BITDetailViewController.m */; };
-		0C785D0F18F12D950028813E /* BITStorageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C785D0E18F12D950028813E /* BITStorageButton.m */; };
-		0C8B67E718F06AEB006CCBFF /* BITCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8B67E618F06AEB006CCBFF /* BITCollectionViewCell.m */; };
 		0CA065A218EFA9B0007DF659 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA065A118EFA9B0007DF659 /* Foundation.framework */; };
 		0CA065A418EFA9B0007DF659 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA065A318EFA9B0007DF659 /* CoreGraphics.framework */; };
 		0CA065A618EFA9B0007DF659 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA065A518EFA9B0007DF659 /* UIKit.framework */; };
@@ -28,6 +26,10 @@
 		0CA5D52F18EFACD200E2A62F /* BITSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D52E18EFACD200E2A62F /* BITSettingsViewController.m */; };
 		0CA5D53518EFB46500E2A62F /* BITDiscoveryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */; };
 		0CA5D53818EFB67700E2A62F /* BITMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA5D53718EFB67700E2A62F /* BITMainViewController.m */; };
+		0CB5564C18F3AEE4002E8F34 /* BITNullPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB5564B18F3AEE4002E8F34 /* BITNullPerson.m */; };
+		0CB5564F18F3C21D002E8F34 /* BITButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB5564E18F3C21D002E8F34 /* BITButtonCell.m */; };
+		0CB5565218F3C22A002E8F34 /* BITImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB5565118F3C22A002E8F34 /* BITImageCell.m */; };
+		0CB5565818F3C4C1002E8F34 /* BITCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB5565718F3C4C1002E8F34 /* BITCollectionCell.m */; };
 		0CC0254918EFBF2400F87734 /* BITPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0254818EFBF2400F87734 /* BITPerson.m */; };
 		0CC0254B18F0038C00F87734 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC0254A18F0038C00F87734 /* CoreBluetooth.framework */; };
 		0CC0254D18F0039200F87734 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC0254C18F0039200F87734 /* CoreLocation.framework */; };
@@ -48,10 +50,6 @@
 		0C59E22218F1481100604FAD /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		0C785D0718F114A60028813E /* BITDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITDetailViewController.h; sourceTree = "<group>"; };
 		0C785D0818F114A60028813E /* BITDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITDetailViewController.m; sourceTree = "<group>"; };
-		0C785D0D18F12D950028813E /* BITStorageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITStorageButton.h; sourceTree = "<group>"; };
-		0C785D0E18F12D950028813E /* BITStorageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITStorageButton.m; sourceTree = "<group>"; };
-		0C8B67E518F06AEB006CCBFF /* BITCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITCollectionViewCell.h; sourceTree = "<group>"; };
-		0C8B67E618F06AEB006CCBFF /* BITCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITCollectionViewCell.m; sourceTree = "<group>"; };
 		0CA0659E18EFA9B0007DF659 /* Bitcamp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bitcamp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CA065A118EFA9B0007DF659 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0CA065A318EFA9B0007DF659 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -75,6 +73,14 @@
 		0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITDiscoveryViewController.m; sourceTree = "<group>"; };
 		0CA5D53618EFB67700E2A62F /* BITMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITMainViewController.h; sourceTree = "<group>"; };
 		0CA5D53718EFB67700E2A62F /* BITMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITMainViewController.m; sourceTree = "<group>"; };
+		0CB5564A18F3AEE4002E8F34 /* BITNullPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITNullPerson.h; sourceTree = "<group>"; };
+		0CB5564B18F3AEE4002E8F34 /* BITNullPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITNullPerson.m; sourceTree = "<group>"; };
+		0CB5564D18F3C21D002E8F34 /* BITButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITButtonCell.h; sourceTree = "<group>"; };
+		0CB5564E18F3C21D002E8F34 /* BITButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITButtonCell.m; sourceTree = "<group>"; };
+		0CB5565018F3C22A002E8F34 /* BITImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITImageCell.h; sourceTree = "<group>"; };
+		0CB5565118F3C22A002E8F34 /* BITImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITImageCell.m; sourceTree = "<group>"; };
+		0CB5565618F3C4C1002E8F34 /* BITCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITCollectionCell.h; sourceTree = "<group>"; };
+		0CB5565718F3C4C1002E8F34 /* BITCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITCollectionCell.m; sourceTree = "<group>"; };
 		0CC0254718EFBF2400F87734 /* BITPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITPerson.h; sourceTree = "<group>"; };
 		0CC0254818EFBF2400F87734 /* BITPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITPerson.m; sourceTree = "<group>"; };
 		0CC0254A18F0038C00F87734 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
@@ -149,15 +155,19 @@
 				0CA065B018EFA9B0007DF659 /* BITAppDelegate.h */,
 				0CA065B118EFA9B0007DF659 /* BITAppDelegate.m */,
 				0CA5D52818EFA9FE00E2A62F /* Main.storyboard */,
-				0C785D0D18F12D950028813E /* BITStorageButton.h */,
-				0C785D0E18F12D950028813E /* BITStorageButton.m */,
+				0CB5565018F3C22A002E8F34 /* BITImageCell.h */,
+				0CB5565118F3C22A002E8F34 /* BITImageCell.m */,
+				0CB5564D18F3C21D002E8F34 /* BITButtonCell.h */,
+				0CB5564E18F3C21D002E8F34 /* BITButtonCell.m */,
 				0C785D0718F114A60028813E /* BITDetailViewController.h */,
+				0CB5565618F3C4C1002E8F34 /* BITCollectionCell.h */,
+				0CB5565718F3C4C1002E8F34 /* BITCollectionCell.m */,
 				0C785D0818F114A60028813E /* BITDetailViewController.m */,
-				0C8B67E518F06AEB006CCBFF /* BITCollectionViewCell.h */,
-				0C8B67E618F06AEB006CCBFF /* BITCollectionViewCell.m */,
 				0CA5D53618EFB67700E2A62F /* BITMainViewController.h */,
 				0CA5D53718EFB67700E2A62F /* BITMainViewController.m */,
 				0CC0254718EFBF2400F87734 /* BITPerson.h */,
+				0CB5564A18F3AEE4002E8F34 /* BITNullPerson.h */,
+				0CB5564B18F3AEE4002E8F34 /* BITNullPerson.m */,
 				0CC0254818EFBF2400F87734 /* BITPerson.m */,
 				0CA5D53318EFB46500E2A62F /* BITDiscoveryViewController.h */,
 				0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */,
@@ -296,14 +306,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CA5D52F18EFACD200E2A62F /* BITSettingsViewController.m in Sources */,
-				0C785D0F18F12D950028813E /* BITStorageButton.m in Sources */,
+				0CB5564F18F3C21D002E8F34 /* BITButtonCell.m in Sources */,
 				0CA5D53818EFB67700E2A62F /* BITMainViewController.m in Sources */,
 				0C785D0918F114A60028813E /* BITDetailViewController.m in Sources */,
 				0CA065B218EFA9B0007DF659 /* BITAppDelegate.m in Sources */,
+				0CB5565818F3C4C1002E8F34 /* BITCollectionCell.m in Sources */,
 				0CA065AE18EFA9B0007DF659 /* main.m in Sources */,
 				0CC0254918EFBF2400F87734 /* BITPerson.m in Sources */,
 				0CA5D53518EFB46500E2A62F /* BITDiscoveryViewController.m in Sources */,
-				0C8B67E718F06AEB006CCBFF /* BITCollectionViewCell.m in Sources */,
+				0CB5564C18F3AEE4002E8F34 /* BITNullPerson.m in Sources */,
+				0CB5565218F3C22A002E8F34 /* BITImageCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
