@@ -106,6 +106,7 @@ static const NSString *endpoint = @"http://bitcamp.herokuapp.com";
         self.email = person[@"email"];
         self.homepage = person[@"homepage"];
         self.facebook_id = person[@"facebook_id"];
+        self.seen = NO;
     }
     
     return self;

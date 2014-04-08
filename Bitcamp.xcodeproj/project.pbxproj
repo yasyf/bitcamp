@@ -8,11 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0C1F8F7918F05D860018C405 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C1F8F7818F05D860018C405 /* QuartzCore.framework */; };
-		0C38165D18F1658E00A6B1DE /* BITExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C38165C18F1658E00A6B1DE /* BITExplorerViewController.m */; };
-		0C38166018F16B0200A6B1DE /* BITOtherPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C38165F18F16B0200A6B1DE /* BITOtherPerson.m */; };
-		0C38166318F172D500A6B1DE /* BITOtherCollectionVewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C38166218F172D500A6B1DE /* BITOtherCollectionVewCell.m */; };
-		0C38166618F1754800A6B1DE /* BITOtherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C38166518F1754800A6B1DE /* BITOtherDetailViewController.m */; };
-		0C38166918F17AC800A6B1DE /* BITStorageButton2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C38166818F17AC800A6B1DE /* BITStorageButton2.m */; };
 		0C59E22318F1481100604FAD /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C59E22218F1481100604FAD /* FacebookSDK.framework */; };
 		0C785D0918F114A60028813E /* BITDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C785D0818F114A60028813E /* BITDetailViewController.m */; };
 		0C785D0F18F12D950028813E /* BITStorageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C785D0E18F12D950028813E /* BITStorageButton.m */; };
@@ -50,16 +45,6 @@
 
 /* Begin PBXFileReference section */
 		0C1F8F7818F05D860018C405 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		0C38165B18F1658E00A6B1DE /* BITExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITExplorerViewController.h; sourceTree = "<group>"; };
-		0C38165C18F1658E00A6B1DE /* BITExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITExplorerViewController.m; sourceTree = "<group>"; };
-		0C38165E18F16B0200A6B1DE /* BITOtherPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITOtherPerson.h; sourceTree = "<group>"; };
-		0C38165F18F16B0200A6B1DE /* BITOtherPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITOtherPerson.m; sourceTree = "<group>"; };
-		0C38166118F172D500A6B1DE /* BITOtherCollectionVewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITOtherCollectionVewCell.h; sourceTree = "<group>"; };
-		0C38166218F172D500A6B1DE /* BITOtherCollectionVewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITOtherCollectionVewCell.m; sourceTree = "<group>"; };
-		0C38166418F1754800A6B1DE /* BITOtherDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITOtherDetailViewController.h; sourceTree = "<group>"; };
-		0C38166518F1754800A6B1DE /* BITOtherDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITOtherDetailViewController.m; sourceTree = "<group>"; };
-		0C38166718F17AC800A6B1DE /* BITStorageButton2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITStorageButton2.h; sourceTree = "<group>"; };
-		0C38166818F17AC800A6B1DE /* BITStorageButton2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITStorageButton2.m; sourceTree = "<group>"; };
 		0C59E22218F1481100604FAD /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		0C785D0718F114A60028813E /* BITDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITDetailViewController.h; sourceTree = "<group>"; };
 		0C785D0818F114A60028813E /* BITDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITDetailViewController.m; sourceTree = "<group>"; };
@@ -166,25 +151,15 @@
 				0CA5D52818EFA9FE00E2A62F /* Main.storyboard */,
 				0C785D0D18F12D950028813E /* BITStorageButton.h */,
 				0C785D0E18F12D950028813E /* BITStorageButton.m */,
-				0C38166718F17AC800A6B1DE /* BITStorageButton2.h */,
-				0C38166818F17AC800A6B1DE /* BITStorageButton2.m */,
 				0C785D0718F114A60028813E /* BITDetailViewController.h */,
 				0C785D0818F114A60028813E /* BITDetailViewController.m */,
-				0C38166418F1754800A6B1DE /* BITOtherDetailViewController.h */,
-				0C38166518F1754800A6B1DE /* BITOtherDetailViewController.m */,
 				0C8B67E518F06AEB006CCBFF /* BITCollectionViewCell.h */,
-				0C38166118F172D500A6B1DE /* BITOtherCollectionVewCell.h */,
-				0C38166218F172D500A6B1DE /* BITOtherCollectionVewCell.m */,
 				0C8B67E618F06AEB006CCBFF /* BITCollectionViewCell.m */,
 				0CA5D53618EFB67700E2A62F /* BITMainViewController.h */,
 				0CA5D53718EFB67700E2A62F /* BITMainViewController.m */,
 				0CC0254718EFBF2400F87734 /* BITPerson.h */,
 				0CC0254818EFBF2400F87734 /* BITPerson.m */,
 				0CA5D53318EFB46500E2A62F /* BITDiscoveryViewController.h */,
-				0C38165B18F1658E00A6B1DE /* BITExplorerViewController.h */,
-				0C38165C18F1658E00A6B1DE /* BITExplorerViewController.m */,
-				0C38165E18F16B0200A6B1DE /* BITOtherPerson.h */,
-				0C38165F18F16B0200A6B1DE /* BITOtherPerson.m */,
 				0CA5D53418EFB46500E2A62F /* BITDiscoveryViewController.m */,
 				0CA5D52D18EFACD200E2A62F /* BITSettingsViewController.h */,
 				0CA5D52E18EFACD200E2A62F /* BITSettingsViewController.m */,
@@ -325,14 +300,9 @@
 				0CA5D53818EFB67700E2A62F /* BITMainViewController.m in Sources */,
 				0C785D0918F114A60028813E /* BITDetailViewController.m in Sources */,
 				0CA065B218EFA9B0007DF659 /* BITAppDelegate.m in Sources */,
-				0C38165D18F1658E00A6B1DE /* BITExplorerViewController.m in Sources */,
-				0C38166918F17AC800A6B1DE /* BITStorageButton2.m in Sources */,
 				0CA065AE18EFA9B0007DF659 /* main.m in Sources */,
-				0C38166018F16B0200A6B1DE /* BITOtherPerson.m in Sources */,
 				0CC0254918EFBF2400F87734 /* BITPerson.m in Sources */,
-				0C38166318F172D500A6B1DE /* BITOtherCollectionVewCell.m in Sources */,
 				0CA5D53518EFB46500E2A62F /* BITDiscoveryViewController.m in Sources */,
-				0C38166618F1754800A6B1DE /* BITOtherDetailViewController.m in Sources */,
 				0C8B67E718F06AEB006CCBFF /* BITCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -17,6 +17,7 @@
 @property NSString *homepage;
 @property NSString *email;
 @property NSString *facebook_id;
+@property BOOL seen;
 
 + (BITPerson *)personWithIdentifier:(NSString *)identifier;
 

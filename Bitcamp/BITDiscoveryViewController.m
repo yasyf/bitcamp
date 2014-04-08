@@ -56,6 +56,13 @@ static NSString *myIdentifier;
     }
     
     [self.collectionView reloadData];
+    
+    if ([self.order count] > 1) {
+        BITPerson *person = (BITPerson *)self.nearby[self.order[1]];
+        if (person.proximity == 1 && person.seen == NO) {
+            [self showDetailsForPerson:person];
+        }
+    }
 }
 
 - (void)initBeacon
